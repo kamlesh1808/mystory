@@ -1,0 +1,24 @@
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:advertComps="http://xmlns.jcp.org/jsf/composite/comps/advert"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+
+    <ui:fragment rendered="#{storiesMBean.advertBook != null}">
+        <advertComps:advertBookComp
+                header="#{storiesMBean.advertBook.getHeader()}"
+                title="#{storiesMBean.advertBook.getTitle()}"
+                subTitle="#{storiesMBean.advertBook.getSubTitle()}"
+                link="#{storiesMBean.advertBook.getLink()}"
+                imageSrc="#{storiesMBean.advertBook.getImageSrc()}"/>
+    </ui:fragment>
+
+    <ui:fragment rendered="#{storiesMBean.advertProduct != null}">
+        <advertComps:advertProductComp
+                header="#{storiesMBean.advertProduct.getHeader()}"
+                title="#{storiesMBean.advertProduct.getTitle()}"
+                subTitle="#{storiesMBean.advertProduct.getSubTitle()}"
+                link="#{storiesMBean.advertProduct.getLink()}"
+                imageSrc="#{storiesMBean.advertProduct.getImageSrc()}"/>
+    </ui:fragment>
+
+</ui:composition>

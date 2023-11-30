@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<composite:interface>
+	<composite:attribute name="headerLabel" />
+	<composite:attribute name="emailLabel" />
+	<composite:attribute name="emailValue" />
+	<composite:attribute name="passwordLabel" />
+	<composite:attribute name="passwordValue" />
+
+	<composite:attribute name="submitButtonText" />
+	<composite:attribute name="submitButtonAction"
+		method-signature="java.lang.String action()" />
+
+	<composite:attribute name="cancelButtonText" />
+	<composite:attribute name="cancelButtonAction"
+		method-signature="java.lang.String action()" />
+
+</composite:interface>
+
+<composite:implementation>
+	<h:form>
+		<p:panel id="signInComp" header="#{cc.attrs.headerLabel}">
+			<table>
+				<tr>
+					<td colspan="1"><commonComps:messagesComp /></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel for="email" value="#{cc.attrs.emailLabel}" /><br />
+						<p:inputText id="email"
+							pt:placeHolder="#{i18nApp.signin_emailPlaceHolder}"
+							value="#{cc.attrs.emailValue}" required="true"
+							requiredMessage="#{i18nApp.signin_emailRequired}" size="42"
+							maxlength="64">
+							<f:validator validatorId="eMailValidator" />
+						</p:inputText></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel for="password"
+							value="#{cc.attrs.passwordLabel}" /><br /> <p:password
+							id="password" label="#{cc.attrs.passwordLabel}"
+							pt:placeHolder="#{i18nApp.signin_passwordPlaceHolder}"
+							value="#{cc.attrs.passwordValue}" required="true"
+							requiredMessage="#{i18nApp.signin_passwordRequired}" size="42"
+							maxlength="20">
+						</p:password></td>
+				</tr>
+				<tr>
+					<td><p:commandButton process="@form" update="signInComp"
+							value="#{cc.attrs.submitButtonText}"
+							action="#{cc.attrs.submitButtonAction}" type="submit" /> <p:button
+							value="#{cc.attrs.cancelButtonText}" outcome="/pub/site/index">
+						</p:button></td>
+				</tr>
+				<tr>
+					<td>&#160;</td>
+				</tr>
+				<tr>
+					<td><h:outputLink value="/sign-up">#{i18nApp.header_signup}</h:outputLink>
+						&#160;&#160; <h:outputLink value="/password-reset">#{i18nApp.useraccount_recoveryPwd}</h:outputLink>
+					</td>
+				</tr>
+				<tr>
+					<td>&#160;</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="strike">
+							<span>#{i18nApp.signin_dividerText}</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: left">
+						<button name="signInGoogle" type="submit" class="btn btn-default btn-outline-secondary"
+							formaction="OAuth2Google" formmethod="get">
+							<h:graphicImage name="images/social/16px-Google__G__Logo.png"
+								styleClass="signIn" />
+							#{i18nApp.signin_withGoogle}
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td>&#160;</td>
+				</tr>
+				<tr>
+					<td><h:outputLink value="/terms-of-service">#{i18nApp.footer_termsOfService}</h:outputLink>,
+						<h:outputLink value="/security-policy">#{i18nApp.footer_securityPolicy}</h:outputLink>,
+						<h:outputLink value="/privacy-policy">#{i18nApp.footer_privacyPolicy}</h:outputLink>
+						#{i18nApp.signin_apply}</td>
+				</tr>
+
+			</table>
+		</p:panel>
+	</h:form>
+
+</composite:implementation>
+
+</html>

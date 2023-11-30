@@ -1,0 +1,12 @@
+description = 'mystore-data'
+jar.enabled = false // disable the jar task
+
+dependencies {
+}
+
+task dataZip(type: Zip) { // create zip
+    from 'src/main/sql'
+}
+
+
+compileJava.dependsOn dataZip  // task executes as a dependency of compileJava

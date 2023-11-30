@@ -1,0 +1,10 @@
+/bin/
+/target/
+/dist/
+/lib/
+/build/
+/.apt_generated/
+/mystory-bus.iml
+/.clover/
+/.sts4-cache/
+/src/main/generated/com/jklprojects/mystory/business/

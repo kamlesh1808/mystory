@@ -1,0 +1,49 @@
+<ui:composition xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:storyComps="http://xmlns.jcp.org/jsf/composite/comps/story"
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{i18nApp.aboutUs_pageTitle}"/>
+    </ui:define>
+
+<!--    <ui:define name="metadata">-->
+<!--        <f:metadata>-->
+<!--            <f:viewAction action="#{appMBean.doCreatePageWatch('ABOUT_US')}" onPostback="false"/>-->
+<!--        </f:metadata>-->
+<!--    </ui:define>-->
+
+    <ui:define name="content">
+        <div class="row aboutUs">
+            <div class="col-sm-12 col-md-12">
+                <p>
+                    <h:outputText value="#{i18nApp.aboutUs_onLinePlatform}" escape="false"/>
+                </p>
+                <p>
+                    <h:outputText value="#{i18nApp.aboutUs_hopeShare}" escape="false"/>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <storyComps:storyNamesComp/>
+
+                <p>
+                    <h:outputText value="#{i18nApp.aboutUs_myStoryTeam}"/>
+                </p>
+            </div>
+        </div>
+
+
+        <div>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

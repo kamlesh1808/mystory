@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<composite:interface>
+    <composite:attribute name="headerLabel"/>
+    <composite:attribute name="storyLinks"/>
+    <composite:attribute name="size" default="3"/>
+</composite:interface>
+
+<composite:implementation>
+
+    <ui:fragment rendered="#{not empty cc.attrs.storyLinks}">
+        <div class="card">
+            <div class="card-header">
+                <div class="storyListHeader her">#{cc.attrs.headerLabel}</div>
+            </div>
+
+            <div class="card-body">
+                <ui:param name="limit" value="#{cc.attrs.size}"/>
+                <ui:repeat var="storyLink" value="#{cc.attrs.storyLinks}" varStatus="status">
+
+                    <ui:fragment rendered="#{status.index lt limit}">
+                        <h:link outcome="/pub/story/shared" includeViewParams="true"
+                                styleClass="storyListTitle"
+                                value="#{storyLink.title}"
+                                title="#{i18nApp.stories_viewThisStoryTooltip}">
+                            <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_ID}" value="#{storyLink.storyId}"/>
+                            <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_NAME}"
+                                     value="#{appMBean.getURI(storyLink.storyName.storyName)}"/>
+                            <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_TITLE}"
+                                     value="#{appMBean.getURI(storyLink.title)}"/>
+                        </h:link>
+
+                        <br/>
+
+                        <div>
+							<span title="#{i18nApp.userProfile_identicon}"><svg
+                                    data-jdenticon-value="#{storyLink.storyAuthor.userUID}" width="29"
+                                    height="29"></svg></span>
+                            <h:link outcome="/pub/user/userProfile" includeViewParams="true"
+                                    value="#{storyLink.storyAuthor.author} "
+                                    title="#{i18nApp.userProfile_viewUsersProfile}"
+                                    styleClass="authorName">
+                                <f:param name="#{requestParamsMBean.REQ_PARAM_USER_UID}"
+                                         value="#{storyLink.storyAuthor.userUID}"/>
+                                <f:param name="#{requestParamsMBean.REQ_PARAM_AUTHOR_URL}"
+                                         value="#{storyLink.storyAuthor.authorURL}"/>
+                                <f:param name="#{requestParamsMBean.REQ_PARAM_USER_ROLE_TYPE_ID}"
+                                         value="#{storyLink.storyAuthor.userRoleType}"/>
+                            </h:link>
+                        </div>
+
+                        <div>
+                            <i class="story-icons fas fa-file-signature"
+                               title="#{i18nApp.share_storyName}"></i>
+                            <h:link outcome="/pub/story/storyNameStories" includeViewParams="true"
+                                    value="#{storyLink.storyName.storyName} "
+                                    title="#{i18nApp.storyNameStories_view}" styleClass="storyName">
+                                <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_NAME_ID}"
+                                         value="#{storyLink.storyName.id}"/>
+                                <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_NAME_URI}"
+                                         value="#{appMBean.getURI(storyLink.storyName.storyName)}"/>
+                            </h:link>
+                        </div>
+
+                        <div>
+                            <i class="story-icons far fa-clock" title="#{i18nApp.stories_posted}"></i>
+                            <h:outputText
+                                    value="#{appMBean.getOffsetDateTimeFormattedISO_LOCAL_DATE(storyLink.createdDateTime)}"
+                                    title="#{i18nApp.stories_posted} #{appMBean.getAgo(storyLink.createdDateTime)} #{i18nApp.stories_postedOn} #{appMBean.getOffsetDateTimeFormattedISO_LOCAL_DATE_TIME(storyLink.createdDateTime)}"/>
+                            <i class="story-icons fas fa-clock" title="#{i18nApp.stories_updated}"></i>
+                            <h:outputText
+                                    value="#{appMBean.getOffsetDateTimeFormattedISO_LOCAL_DATE(storyLink.updatedDateTime)}"
+                                    title="#{i18nApp.stories_posted} #{appMBean.getAgo(storyLink.updatedDateTime)} #{i18nApp.stories_postedOn} #{appMBean.getOffsetDateTimeFormattedISO_LOCAL_DATE_TIME(storyLink.updatedDateTime)}"/>
+
+                            <ui:fragment rendered="#{storyLink.views > 0}">
+                                <i class="story-icons far fa-eye" title="#{i18nApp.stories_views}"/>
+                                <h:outputText value="#{storyLink.views} #{i18nApp.stories_views}"/>
+                            </ui:fragment>
+                        </div>
+
+                        <div>
+                            <h:outputText value="#{i18nApp.story_storyTags} "/>
+
+                            <ui:repeat var="storyTag" value="#{storyLink.storyTags}">
+                                <span class="tag">
+                                <h:link outcome="/pub/story/tagStories" styleClass="tagText"
+                                        includeViewParams="true" value="#{storyTag.storyTagName}"
+                                        title="#{i18nApp.stories_tagsTitle}">
+                                    <f:param name="#{requestParamsMBean.REQ_PARAM_TAG_NAME}"
+                                             value="#{appMBean.getURI(storyTag.storyTagName)}"/>
+                                    <f:param name="#{requestParamsMBean.REQ_PARAM_TAG_ID}"
+                                             value="#{storyTag.storyTagId}"/>
+                                </h:link>
+                                </span>
+                            </ui:repeat>
+                        </div>
+
+                        <br/>
+                    </ui:fragment>
+                </ui:repeat>
+            </div>
+
+        </div>
+        <br/>
+
+    </ui:fragment>
+
+</composite:implementation>
+
+</html>

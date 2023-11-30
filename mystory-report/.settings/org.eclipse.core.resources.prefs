@@ -1,0 +1,14 @@
+eclipse.preferences.version=1
+encoding//src/main/jasperreports/account/accountRecovery.jrxml=UTF-8
+encoding//src/main/jasperreports/account/accountVerified.jrxml=UTF-8
+encoding//src/main/jasperreports/account/accountVerify.jrxml=UTF-8
+encoding//src/main/jasperreports/account/passwordChanged.jrxml=UTF-8
+encoding//src/main/jasperreports/account/verifyEmailUpdate.jrxml=UTF-8
+encoding//src/main/jasperreports/contactUs/contactUsCreated.jrxml=UTF-8
+encoding//src/main/jasperreports/contactUs/contactUsReply.jrxml=UTF-8
+encoding//src/main/jasperreports/story/storiesCreated.jrxml=UTF-8
+encoding//src/main/jasperreports/story/storiesViews.jrxml=UTF-8
+encoding//src/main/jasperreports/story/storyCreated.jrxml=UTF-8
+encoding//src/main/jasperreports/story/storyReview.jrxml=UTF-8
+encoding//src/main/jasperreports/story/storyReviewed.jrxml=UTF-8
+encoding//src/main/jasperreports/user/usersCreated.jrxml=UTF-8

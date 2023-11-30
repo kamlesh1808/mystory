@@ -1,0 +1,133 @@
+<ui:composition xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:advertComps="http://xmlns.jcp.org/jsf/composite/comps/advert"
+                xmlns:storyComps="http://xmlns.jcp.org/jsf/composite/comps/story"
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText
+                value="#{storiesMBean.story.storyName.i18N} - #{storiesMBean.story.title}"/>
+    </ui:define>
+
+    <ui:define name="javaScriptInsert">
+        <h:outputScript>
+            $(document).ready(function () {
+            $("#topOfPage").focus();
+            });
+
+            $(function () {
+            $('.storyReplyToggle').click(function () {
+            $(this).closest("#storyReplyContainer").find("#storyReplyFormComp").toggle();
+            $("textarea").focus();
+
+            if ($("#storyReplyEditComp:visible")) {
+            $(this).closest("#storyReplyContainer").find("#storyReplyEditComp").hide();
+            }
+
+            if ($("#storyReplyContent:hidden")) {
+            $(this).closest("#storyReplyContainer").find("#storyReplyContent").show();
+            }
+            });
+            });
+
+
+            $(function () {
+            $('.storyReplyEditToggle').click(function () {
+            $(this).closest("#storyReplyContainer").find("div#storyReplyEditComp").toggle();
+            $("textarea").focus();
+
+            if ($("#storyReplyFormComp:visible")) {
+            $(this).closest("#storyReplyContainer").find("#storyReplyFormComp").hide();
+            }
+
+            $(this).closest("#storyReplyContainer").find("#storyReplyContent").toggle();
+            });
+            });
+
+        </h:outputScript>
+    </ui:define>
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewAction action="#{storiesMBean.doStoryView()}" onPostback="false"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <c:choose>
+            <c:when test="#{storiesMBean.story ne null}">
+
+                <div class="row">
+                    <ui:fragment rendered="#{appMBean.isAdvertGoogleAdsenseEnabled()}">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <advertComps:advertGoogleComp advertHeader="#{i18nApp.advert_advertHeader}">
+                            </advertComps:advertGoogleComp>
+                        </div>
+                    </ui:fragment>
+                </div>
+
+                <div class="row">
+
+                    <a id="topOfPage"></a>
+
+                    <div class="col-sm-12 col-md-7 col-lg-7">
+                        <storyComps:storyViewComp/>
+                    </div>
+
+                    <ui:fragment rendered="#{storiesMBean.renderStoriesRelated()}">
+
+                        <div class="col-sm-12 col-md-5 col-lg-5">
+                            <storyComps:storyLinksComp
+                                    headerLabel="#{i18nApp.stories_headerRelatedStories}"
+                                    storyLinks="#{storiesMBean.storiesRelated}"
+                                    size="#{appMBean.getStoryRelatedStoryListSize()}"/>
+
+                            <ui:fragment rendered="#{storiesMBean.isAdvertBooksAvailable()}">
+                                <ui:repeat var="advertBook" value="#{storiesMBean.getAdvertBooksForDisplay()}">
+
+                                    <advertComps:advertBookComp
+                                            header="#{advertBook.getHeader()}"
+                                            title="#{advertBook.getTitle()}"
+                                            subTitle="#{advertBook.getSubTitle()}"
+                                            link="#{advertBook.getLink()}"
+                                            imageSrc="#{advertBook.getImageSrc()}"/>
+                                </ui:repeat>
+                            </ui:fragment>
+
+                            <ui:fragment
+                                    rendered="#{storiesMBean.isAdvertProductsAvailable()}">
+                                <ui:repeat var="advertProduct" value="#{storiesMBean.getAdvertProductsForDisplay()}">
+
+                                    <advertComps:advertProductComp
+                                            header="#{advertProduct.getHeader()}"
+                                            title="#{advertProduct.getTitle()}"
+                                            subTitle="#{advertProduct.getSubTitle()}"
+                                            link="#{advertProduct.getLink()}"
+                                            imageSrc="#{advertProduct.getImageSrc()}"/>
+                                </ui:repeat>
+                            </ui:fragment>
+
+                            <advertComps:advertMediaNetComp-Skyscrapper-160x600/>
+                        </div>
+                    </ui:fragment>
+
+                </div>
+                <br/>
+                <br/>
+
+
+            </c:when>
+
+            <c:otherwise>
+                <ui:include src="/WEB-INF/templates/contentDefault.xhtml"></ui:include>
+            </c:otherwise>
+
+        </c:choose>
+
+    </ui:define>
+
+</ui:composition>

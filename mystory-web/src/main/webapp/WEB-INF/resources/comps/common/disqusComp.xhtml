@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common"
+	xmlns:advertComps="http://xmlns.jcp.org/jsf/composite/comps/advert"
+	xmlns:userComps="http://xmlns.jcp.org/jsf/composite/comps/user"
+	xmlns:storyComps="http://xmlns.jcp.org/jsf/composite/comps/story">
+
+<composite:interface>
+	<composite:attribute name="pageURL"></composite:attribute>
+	<composite:attribute name="pageIdentifier"></composite:attribute>
+</composite:interface>
+
+<composite:implementation>
+
+	<div id="disqus_thread"></div>
+	<script>
+		/**
+		 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+		 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+		/*
+		 var disqus_config = function () {
+		 this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		 this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+		 };
+		 */
+
+		var disqusShortName = '#{appMBean.appDisqusShortName}';
+
+		(function() { // DON'T EDIT BELOW THIS LINE
+			var d = document, s = d.createElement('script');
+			s.src = 'https://' + disqusShortName + '.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+	</script>
+	<noscript>
+		Please enable JavaScript to view the <a
+			href="https://disqus.com/?ref_noscript">comments powered by
+			Disqus.</a>
+	</noscript>
+
+</composite:implementation>
+
+</html>

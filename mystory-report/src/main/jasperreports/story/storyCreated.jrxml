@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="verify_account" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="i18n.report" uuid="6c2126a8-e76d-4998-a248-cbe91b2a903a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="mystory_logo" class="java.lang.Object"/>
+	<parameter name="mystory_icon" class="java.lang.Object"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="storyTitle" class="java.lang.String">
+		<fieldDescription><![CDATA[storyTitle]]></fieldDescription>
+	</field>
+	<field name="storyName" class="java.lang.String">
+		<fieldDescription><![CDATA[storyName]]></fieldDescription>
+	</field>
+	<field name="storyType" class="java.lang.String">
+		<fieldDescription><![CDATA[storyType]]></fieldDescription>
+	</field>
+	<field name="storyAccessType" class="java.lang.String">
+		<fieldDescription><![CDATA[storyAccessType]]></fieldDescription>
+	</field>
+	<field name="storyStatus" class="java.lang.String">
+		<fieldDescription><![CDATA[storyStatus]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="210" y="30" width="320" height="40" backcolor="#E2E2FF" uuid="cdad7de4-c248-4c64-8de5-b4e64e8f8836">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_storyCreated_name}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="9" width="200" height="59" backcolor="#E2E2FF" uuid="fd002a8c-9b96-4ce2-8cc0-199f69df8683">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<imageExpression><![CDATA[$P{mystory_logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="236" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="30" y="70" width="150" height="30" uuid="91a0502d-be82-486a-a24b-614371994521">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_common_storyTitle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="100" width="150" height="30" uuid="b3081f07-d0c6-448f-8b7d-3f0654a903f2">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_common_storyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="130" width="150" height="30" uuid="09dede2b-761e-41f0-83c1-7c276817cb7c">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_common_storyType}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="180" y="70" width="300" height="30" uuid="ebc56db6-142a-4057-af18-95f850d6e89e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{storyTitle}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="180" y="100" width="300" height="30" uuid="85c8838b-194f-464b-be48-d2d257d5d88f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{storyName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="180" y="130" width="300" height="30" uuid="6d4d4a92-1b65-4f30-aa02-ed9c2263bf9a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{storyType}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="1" y="20" width="531" height="30" uuid="e02d3284-6b35-4108-b8dd-9e1c3cad42b2">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_storyCreated_created}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="160" width="150" height="30" uuid="cbb14cd8-5b6f-4914-b853-1e5aa78cd87a">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_common_storyAccessType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="190" width="150" height="30" uuid="166a481f-a845-4b75-be10-86fef7123be8">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_common_storyStatus}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="180" y="160" width="300" height="30" uuid="badc489b-4710-4173-ab35-94810af3759b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{storyAccessType}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="180" y="190" width="300" height="30" uuid="9cc34679-0e70-408f-b5b9-10cec34b395b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{storyStatus}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="531" height="30" uuid="97fa680e-2e9a-458b-a3ba-fb0b8410c161">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_common_emailSignature}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="30" width="489" height="30" backcolor="#E2E2FF" uuid="b79a9e96-86a5-4094-b255-506752eba7db">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="DejaVu Sans" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report_common_copyRight}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="29" width="32" height="32" backcolor="#E2E2FF" uuid="99886ca4-d443-43f9-8d90-df2722f09082">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box padding="5"/>
+				<imageExpression><![CDATA[$P{mystory_icon}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

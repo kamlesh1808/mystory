@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<composite:interface>
+	<composite:attribute name="headerLabel" />
+	<composite:attribute name="replyValue" />
+
+	<composite:attribute name="submitButtonText" />
+	<composite:attribute name="submitButtonAction"
+		method-signature="java.lang.String action()" />
+
+</composite:interface>
+
+<composite:implementation>
+
+	<div class="storyReply">
+		<c:choose>
+			<c:when test="#{signInMBean.userSignedIn}">
+				<h:form>
+					<table>
+						<tr>
+							<td><commonComps:messagesComp /></td>
+						</tr>
+
+						<tr>
+							<td><h:outputText escape="false" class="headerLabel"
+									value="#{cc.attrs.headerLabel}" /> <br /> <p:inputTextarea
+									id="reply" cols="65" rows="5" styleClass="unresizable"
+									label="#{cc.attrs.storyTitleLabel}"
+									pt:placeHolder="#{i18nApp.storyreply_replyPlaceHolder}"
+									value="#{cc.attrs.replyValue}" required="true"
+									requiredMessage="#{i18nApp.storyreply_replyRequired}" /></td>
+						</tr>
+						<tr>
+							<td><p:commandButton value="#{cc.attrs.submitButtonText}"
+									ajax="false" action="#{cc.attrs.submitButtonAction}"
+									process="@form" type="submit" /></td>
+						</tr>
+					</table>
+				</h:form>
+			</c:when>
+			<c:otherwise>
+				<h:outputText value="#{i18nApp.storyreply_signinToReply} " />
+				<h:outputLink value="/signIn">
+					<i class="fa fa-sign-in"></i>#{i18nApp.header_signin}</h:outputLink>
+				<h:outputText value=" #{i18nApp.storyreply_using}" />
+			</c:otherwise>
+		</c:choose>
+	</div>
+</composite:implementation>
+
+</html>

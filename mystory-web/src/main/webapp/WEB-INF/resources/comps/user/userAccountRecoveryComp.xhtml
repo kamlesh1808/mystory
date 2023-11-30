@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<composite:interface>
+	<composite:attribute name="headerLabel" />
+	<composite:attribute name="emailLabel" />
+	<composite:attribute name="emailValue" />
+
+	<composite:attribute name="submitButtonText" />
+	<composite:attribute name="submitButtonAction"
+		method-signature="java.lang.String action()" />
+	<composite:attribute name="cancelButtonText" />
+	<composite:attribute name="cancelButtonAction"
+		method-signature="java.lang.String action()" />
+</composite:interface>
+
+<composite:implementation>
+	<h:form>
+		<p:panel id="userAccountRecoveryComp" header="#{cc.attrs.headerLabel}">
+
+			<table>
+				<tr>
+					<td colspan="1"><commonComps:messagesComp /></td>
+				</tr>
+
+				<tr>
+					<td><p:outputLabel for="email" value="#{cc.attrs.emailLabel}" />
+						<br /> <p:inputText id="email" label="#{cc.attrs.emailLabel}"
+							pt:placeHolder="#{i18nApp.useraccount_recoveryEMailPlaceHolder}"
+							value="#{cc.attrs.emailValue}" size="42" required="true"
+							requiredMessage="#{i18nApp.useraccount_recoveryEMailIsRequired}">
+
+							<f:validator validatorId="eMailValidator" />
+						</p:inputText>
+						<p id="recoveryEMailHelp" class="text-muted">
+							<h:outputText
+								value="#{i18nApp.useraccount_recoveryEMailInstruction}"
+								escape="false" />
+						</p></td>
+				</tr>
+				<tr>
+					<td><p:commandButton process="@form"
+							update="userAccountRecoveryComp"
+							value="#{cc.attrs.submitButtonText}"
+							action="#{cc.attrs.submitButtonAction}" type="submit" /> <p:button
+							value="#{cc.attrs.cancelButtonText}" outcome="/pub/site/index" /></td>
+				</tr>
+			</table>
+		</p:panel>
+	</h:form>
+
+</composite:implementation>
+
+</html>

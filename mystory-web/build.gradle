@@ -1,0 +1,57 @@
+description = 'mystory-web'
+
+apply plugin: 'war'
+
+jar.enabled = false // disable the jar task 
+
+configurations.runtime {
+    // exclude the runtime libs, as they are already included in the ear
+
+    // also exclude jar of this modules
+    exclude module: 'mystory-core'
+    exclude module: 'mystory-bus'
+}
+
+war {
+    manifest {
+        attributes("Manifest-Version": "1.0",
+                "Created-By": project.getGradle().getGradleVersion(),
+                "Built-By": System.properties['user.name'],
+                "Build-Jdk": JavaVersion.current().toString(),
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version)
+    }
+}
+
+dependencies {
+    // Dependencies are compileOnly because it is a skinny WAR. Dependencies are included in the EAR lib
+
+    compileOnly (project(":mystory-core")) {
+        transitive = false
+    }
+
+    compileOnly (project(":mystory-bus")) {
+        transitive = false
+    }
+
+    compileOnly "org.slf4j:slf4j-api:${libraryVersions.slf4j}"
+    compileOnly "org.slf4j:slf4j-ext:${libraryVersions.slf4j}"
+
+
+    compileOnly("org.primefaces:primefaces:${libraryVersions.primefaces}")
+    compileOnly("org.primefaces.extensions:primefaces-extensions:${libraryVersions.primefaces}") {
+        exclude group: 'org.apache.commons', module: 'commons-lang3'
+    }
+    compileOnly("org.primefaces.extensions:resources-ckeditor:${libraryVersions.primefaces}") { exclude(module: 'commons-io') }
+    compileOnly("org.primefaces.extensions:resources-codemirror:${libraryVersions.resourcesCodemirror}")
+
+    compileOnly("org.ocpsoft.rewrite:rewrite-servlet:${libraryVersions.rewriteServlet}")
+    compileOnly("org.apache.httpcomponents:httpclient:${libraryVersions.httpclient}")
+
+    compileOnly("com.github.scribejava:scribejava-apis:${libraryVersions.scribejavaApis}")
+
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:${libraryVersions.jacksonDatabind}") {
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
+    }
+
+}

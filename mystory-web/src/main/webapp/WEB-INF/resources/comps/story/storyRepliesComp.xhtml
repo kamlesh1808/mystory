@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:storyComps="http://xmlns.jcp.org/jsf/composite/comps/story">
+
+<composite:interface>
+	<composite:attribute name="headerLabel" />
+	<composite:attribute name="storyReplies" />
+	<composite:attribute name="repliesCount" />
+	<composite:attribute name="size" default="999" />
+
+	<composite:attribute name="replyButtonText" />
+	<composite:attribute name="replyActionTitle" />
+
+	<composite:attribute name="replyEditButtonText" />
+	<composite:attribute name="replyEditActionTitle" />
+
+</composite:interface>
+
+<composite:implementation>
+
+	<ui:fragment rendered="#{not empty cc.attrs.storyReplies}">
+		<table class="replies">
+			<tr>
+				<td class="headerLabelLarge"><a name="storyReplies"></a>#{cc.attrs.repliesCount}
+					#{cc.attrs.headerLabel}</td>
+			</tr>
+			<ui:param name="limit" value="#{cc.attrs.size}" />
+
+			<ui:repeat var="storyReplyVar" value="#{cc.attrs.storyReplies}"
+				varStatus="status">
+
+				<ui:fragment rendered="#{status.index lt limit}">
+					<tr>
+						<td>
+							<table id="storyReplyContainer" class="reply story-icons">
+								<tr>
+									<td class="replyHeader"><h:form>
+											<i class="fa fa-user" title="#{i18nApp.stories_authorTitle}" />
+											<h:link outcome="/pub/story/stories" includeViewParams="true"
+												value="#{storyReplyVar.user.userName} "
+												title="#{i18nApp.stories_userStoriesTooltip}">
+												<f:param name="#{requestParamsMBean.REQ_PARAM_USER_UID}"
+													value="#{storyReplyVar.user.uid}" />
+												<f:param name="#{requestParamsMBean.REQ_PARAM_USER_NAME}"
+													value="#{storyReplyVar.user.userName}" />
+											</h:link>
+											<i class="fa fa-clock-o"
+												title="#{i18nApp.stories_createdTitle}" />
+											<h:outputText
+												value="#{appMBean.getTimeDurationWithAgo(storyReplyVar.createdTimestamp)} "
+												title="#{storyReplyVar.getCreatedTimestampFormattedDateTime()}">
+											</h:outputText>
+											<h:commandLink value="#{cc.attrs.replyButtonText}"
+												class="storyReplyToggle"
+												actionListener="#{storiesMBean.setReplyId(storyReplyVar.id)}"
+												title="#{cc.attrs.replyActionTitle}">
+												<f:ajax render="storyReplyFormComp" />
+											</h:commandLink>
+											<h:outputText value="&#160;" />
+											<ui:fragment
+												rendered="#{signInMBean.isSignedInUserRoleTypeAppUser() and storyReplyMBean.isEditEnabled(storyReplyVar)}">
+												<h:commandLink value="#{cc.attrs.replyEditButtonText}"
+													class="storyReplyEditToggle"
+													actionListener="#{storyReplyMBean.setReply(storyReplyVar.reply)}"
+													title="#{cc.attrs.replyEditActionTitle}">
+													<f:ajax render="storyReplyEditComp" />
+												</h:commandLink>
+											</ui:fragment>
+										</h:form></td>
+									<td class="replyNum"><h:outputText
+											value=" #{i18nApp.storyreply_replyNum}#{storyReplyVar.replyNum}" />
+										<h:outputText rendered="#{not empty storyReplyVar.parent}"
+											value=" #{i18nApp.storyreply_replyToNum}#{storyReplyVar.parent.replyNum}" />
+									</td>
+								</tr>
+
+								<tr>
+									<td colspan="2" class="reply"><div id="storyReplyContent">#{storyReplyVar.reply}</div></td>
+								</tr>
+
+								<tr>
+									<td colspan="2">
+										<div id="storyReplyFormComp" style="display: none">
+											<storyComps:storyReplyFormComp
+												headerLabel="#{i18nApp.storyreply_reply}"
+												replyValue="#{storyReplyMBean.reply}"
+												submitButtonText="#{i18nApp.storyreply_replySubmitButtonText}"
+												submitButtonAction="#{storyReplyMBean.doStoryReply(storiesMBean.replyId)}" />
+										</div>
+										<div id="storyReplyEditComp" style="display: none">
+											<storyComps:storyReplyFormComp
+												headerLabel="#{i18nApp.storyreply_replyEdit}"
+												replyValue="#{storyReplyMBean.reply}"
+												submitButtonText="#{i18nApp.storyreply_replySubmitButtonText}"
+												submitButtonAction="#{storyReplyMBean.doStoryReplyEdit(storiesMBean.replyId)}" />
+										</div>
+
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</ui:fragment>
+			</ui:repeat>
+		</table>
+
+	</ui:fragment>
+</composite:implementation>
+
+</html>

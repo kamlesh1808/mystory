@@ -1,0 +1,6 @@
+/bin/
+/target/
+/.apt_generated/
+!/mystory-data.iml
+/mystory-data.iml
+/build/

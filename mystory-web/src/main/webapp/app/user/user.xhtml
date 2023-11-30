@@ -1,0 +1,75 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common"
+                xmlns:storyComps="http://xmlns.jcp.org/jsf/composite/comps/story">
+
+    <ui:define name="title">
+        <h:outputText value="#{i18nApp.user_pageTitle}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <c:choose>
+                    <c:when test="#{signInMBean.isUserSignedIn()}">
+
+                        <p:panel class="story-icons">
+                            <h:form>
+                                <ui:fragment
+                                        rendered="#{signInMBean.isSignedInUserAbleToShareAStory()}">
+                                    <h:outputLink styleClass="btn btn-default btn-app"
+                                                  value="/share-a-story">
+                                        <i class="fa fa-book"/>#{i18nApp.share_shareAStory}
+                                    </h:outputLink>
+                                </ui:fragment>
+
+                                <ui:fragment
+                                        rendered="#{signInMBean.isSignedInUserTypeAppInternal()}">
+                                    <h:outputLink styleClass="btn btn-default btn-app"
+                                                  value="/user-account">
+                                        <i class="fa fa-user-plus"/>#{i18nApp.user_updateAccount}
+                                    </h:outputLink>
+                                </ui:fragment>
+
+                                <ui:fragment
+                                        rendered="#{signInMBean.isSignedInUserTypeOAuth2External()}">
+                                    <h:outputLink styleClass="btn btn-default btn-app"
+                                                  value="/user-oauth2-account">
+                                        <i class="fa fa-user-plus"/>#{i18nApp.user_updateAccount}
+                                    </h:outputLink>
+                                </ui:fragment>
+
+                            </h:form>
+                        </p:panel>
+
+                        <storyComps:storySignedInUserStoriesDTComp
+                                signedInUserStories="#{userMBean.storiesOfSignedInUser}"/>
+
+                        <ui:fragment
+                                rendered="#{signInMBean.isSignedInUserRoleTypeAppAdmin()}">
+                            <storyComps:storyPendingReviewDTComp
+                                    storiesPendingReview="#{userMBean.storiesWithStatusPendingReview}"/>
+
+                            <commonComps:contactUsReviewDTComp
+                                    contactUsList="#{contactUsMBean.contactUsForReview}"/>
+
+                        </ui:fragment>
+                    </c:when>
+
+                    <c:otherwise>
+                        <div class="alert alert-warning" role="alert">
+                            <h:outputText
+                                    value="#{i18nApp.user_errorDashBoardURLAndSignedInUserMismatch}"/>
+                        </div>
+                    </c:otherwise>
+
+                </c:choose>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

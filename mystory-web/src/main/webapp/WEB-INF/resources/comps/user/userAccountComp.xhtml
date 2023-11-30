@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<composite:interface>
+	<composite:attribute name="headerLabel" />
+	<composite:attribute name="personalDetailsSectionHeader" />
+	<composite:attribute name="accountDetailsSectionHeader" />
+	<composite:attribute name="userAccountEdit" />
+	<composite:attribute name="userOAuth2" default="false" />
+	<composite:attribute name="firstNameLabel" />
+	<composite:attribute name="firstNameValue" />
+	<composite:attribute name="lastNameLabel" />
+	<composite:attribute name="lastNameValue" />
+	<composite:attribute name="firstLastNameDisplayNameToolTip" default="" /> />
+	<composite:attribute name="userNameLabel" />
+	<composite:attribute name="userNameValue" />
+	<composite:attribute name="userUIDLabel" />
+	<composite:attribute name="userUIDValue" />
+	<composite:attribute name="passwordLabel" />
+	<composite:attribute name="passwordValue" />
+	<composite:attribute name="confirmPasswordLabel" />
+	<composite:attribute name="confirmPasswordValue" />
+	<composite:attribute name="emailLabel" />
+	<composite:attribute name="emailValue" />
+	<composite:attribute name="emailDisabled" />
+	<composite:attribute name="countryLabel" />
+	<composite:attribute name="countryValue" />
+
+	<composite:attribute name="passwordRendered" default="false" />
+	<composite:attribute name="confirmPasswordRendered" default="false" />
+
+	<composite:attribute name="userAccountCreatedUpdatedRendered"
+		default="false" />
+	<composite:attribute name="userAccountCreated" />
+	<composite:attribute name="userAccountUpdated" />
+
+	<composite:attribute name="submitButtonText" />
+	<composite:attribute name="submitButtonAction"
+		method-signature="java.lang.String action()" />
+	<composite:attribute name="cancelButtonText" />
+	<composite:attribute name="cancelButtonAction"
+		method-signature="java.lang.String action()" />
+</composite:interface>
+
+<composite:implementation>
+
+	<ui:param name="emailReadOnly"
+		value="#{cc.attrs.emailDisabled or cc.attrs.userOAuth2}" />
+
+	<h:form>
+		<p:panel id="userAccountComp" header="#{cc.attrs.headerLabel}">
+			<table>
+				<tr>
+					<td colspan="2"><commonComps:messagesComp /></td>
+				</tr>
+				
+				<tr>
+					<td colspan="1" class="formSectionHeader"><h:outputText
+							value="#{cc.attrs.accountDetailsSectionHeader}" escape="false" /></td>
+
+					<td colspan="1"><table>
+							<ui:fragment rendered="#{cc.attrs.userAccountEdit}">
+								<tr>
+									<td colspan="2"><p:outputLabel for="userUID"
+											value="#{cc.attrs.userUIDLabel}" /> <br /> <p:inputText
+											id="userUID" label="#{cc.attrs.userUIDLabel}"
+											value="#{cc.attrs.userUIDValue}"
+											title="#{cc.attrs.userUIDToolTip}" readonly="true"
+											maxlength="20" size="32">
+										</p:inputText></td>
+								</tr>
+							</ui:fragment>
+							
+							<tr>
+								<td colspan="2"><p:outputLabel for="email"
+										value="#{cc.attrs.emailLabel}" /> <br /> <p:inputText
+										id="email" label="#{cc.attrs.emailLabel}"
+										value="#{cc.attrs.emailValue}" required="true"
+										requiredMessage="#{i18nApp.useraccount_emailRequired}"
+										maxlength="64" size="42" readonly="#{emailReadOnly}">
+
+										<f:validator validatorId="eMailValidator" />
+									</p:inputText><p id="emailHelp" class="text-muted">
+											<h:outputText
+												value="#{i18nApp.useraccount_emailHelp}"
+												escape="false" />
+										</p></td>
+							</tr>
+
+							<ui:fragment rendered="#{!cc.attrs.userOAuth2}">
+								<tr>
+									<td colspan="2"><p:outputLabel for="userName"
+											value="#{cc.attrs.userNameLabel}" /> <br /> <p:inputText
+											id="userName" label="#{cc.attrs.userNameLabel}"
+											value="#{cc.attrs.userNameValue}"
+											title="#{i18nApp.useraccount_userNameInstructions}"
+											readonly="#{signInMBean.isSignedInUserRoleTypeAppUser()}"
+											required="true"
+											requiredMessage="#{i18nApp.useraccount_userNameRequired}"
+											maxlength="20" size="32">
+
+											<f:validator validatorId="userNameValidator" />
+										</p:inputText>
+										<p id="userNameHelp" class="text-muted">
+											<h:outputText
+												value="#{i18nApp.useraccount_userNameInstructions}"
+												escape="false" />
+										</p></td>
+								</tr>
+							</ui:fragment>
+
+							<ui:fragment rendered="#{cc.attrs.passwordRendered}">
+								<tr>
+									<td><p:outputLabel for="password"
+											value="#{cc.attrs.passwordLabel}" /> <br /> <p:password
+											id="password" label="#{cc.attrs.passwordLabel}"
+											value="#{cc.attrs.passwordValue}"
+											title="#{i18nApp.useraccount_passwordInstruction}"
+											required="true"
+											requiredMessage="#{i18nApp.useraccount_passwordRequired}"
+											maxlength="20" size="32">
+
+											<f:validator validatorId="strongPasswordValidator" />
+
+											<f:validator for="confirmPassword"
+												validatorId="confirmPasswordValidator" />
+											<f:attribute name="confirmPasswordAttr"
+												value="#{confirmPassword.submittedValue}" />
+										</p:password>
+										<p id="userNameHelp" class="text-muted">
+											<h:outputText
+												value="#{i18nApp.useraccount_passwordInstruction}"
+												escape="false" />
+										</p></td>
+								</tr>
+							</ui:fragment>
+
+							<ui:fragment rendered="#{cc.attrs.confirmPasswordRendered}">
+								<tr>
+									<td><p:outputLabel for="confirmPassword"
+											value="#{cc.attrs.confirmPasswordLabel}" /> <br /> <p:password
+											id="confirmPassword" binding="#{confirmPassword}"
+											label="#{cc.attrs.confirmPasswordLabel}"
+											value="#{cc.attrs.confirmPasswordValue}" required="true"
+											requiredMessage="#{i18nApp.useraccount_confirmPasswordRequired}"
+											maxlength="20" size="32" /></td>
+								</tr>
+							</ui:fragment>
+						</table></td>
+				</tr>
+
+				<tr>
+					<td colspan="1" class="formSectionHeader"><h:outputText
+							value="#{cc.attrs.personalDetailsSectionHeader}" escape="false" /></td>
+
+					<td colspan="1"><table>
+							<tr>
+								<td><p:outputLabel for="firstName"
+										value="#{cc.attrs.firstNameLabel}" /> <br /> <p:inputText
+										id="firstName" label="#{cc.attrs.firstNameLabel}"
+										value="#{cc.attrs.firstNameValue}" required="true"
+										requiredMessage="#{i18nApp.useraccount_firstNameRequired}"
+										title="#{cc.attrs.firstLastNameDisplayNameToolTip}"
+										maxlength="20" size="32" /></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel for="lastName"
+										value="#{cc.attrs.lastNameLabel}" /> <br /> <p:inputText
+										id="lastName" label="#{cc.attrs.lastNameLabel}"
+										value="#{cc.attrs.lastNameValue}" required="true"
+										requiredMessage="#{i18nApp.useraccount_lastNameRequired}"
+										title="#{cc.attrs.firstLastNameDisplayNameToolTip}"
+										maxlength="20" size="32" /></td>
+							</tr>							
+							<ui:fragment rendered="#{!cc.attrs.userOAuth2}">
+								<tr>
+									<td colspan="2"><p:outputLabel for="cc"
+											value="#{cc.attrs.countryLabel}" /> <br /> <p:autoComplete
+											id="cc" value="#{cc.attrs.countryValue}" minQueryLength="1"
+											completeMethod="#{countryACMBean.complete}" var="c"
+											itemLabel="#{c.nameEn}" itemValue="#{c}"
+											converter="#{countryACConverter}" maxlength="64" size="32"
+											required="true"
+											requiredMessage="#{i18nApp.useraccount_countryRequired}"
+											placeholder="#{i18nApp.useraccount_countryPlaceHolder}" /></td>
+								</tr>
+							</ui:fragment>
+							<ui:fragment rendered="#{cc.attrs.userAccountEdit}">
+								<tr>
+									<td colspan="2"><p:outputLabel for="aboutMe"
+											value="#{cc.attrs.aboutMeLabel}" /> <br /> <p:inputTextarea
+											id="aboutMe" label="#{cc.attrs.aboutMeLabel}"
+											value="#{cc.attrs.aboutMeValue}"
+											placeholder="#{cc.attrs.aboutMePlaceHolder}"
+											title="#{cc.attrs.aboutMeToolTip}" rows="7" cols="32"
+											maxlength="323">
+										</p:inputTextarea></td>
+								</tr>
+							</ui:fragment>
+
+						</table></td>
+				</tr>
+
+				<commonComps:createdUpdatedComp
+					sectionHeader="#{i18nApp.common_createdUpdatedSectionHeader}"
+					createdUpdatedRendered="#{cc.attrs.userAccountCreatedUpdatedRendered}"
+					created="#{cc.attrs.userAccountCreated}"
+					updated="#{cc.attrs.userAccountUpdated}" />
+
+				<tr>
+					<td class="formSectionHeader" colspan="1"><h:outputText
+							value="#{i18nApp.commonform_formActions}" escape="false" /></td>
+
+					<td colspan="1"><p:commandButton process="@form"
+							update="userAccountComp" value="#{cc.attrs.submitButtonText}"
+							action="#{cc.attrs.submitButtonAction}" type="submit" /> <p:commandButton
+							value="#{cc.attrs.cancelButtonText}" process="@this"
+							action="#{cc.attrs.cancelButtonAction}" type="submit">
+						</p:commandButton></td>
+				</tr>
+			</table>
+		</p:panel>
+	</h:form>
+
+</composite:implementation>
+
+</html>

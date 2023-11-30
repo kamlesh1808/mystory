@@ -1,0 +1,16 @@
+/build/
+/.apt_generated/
+/.gradle/
+/logs-mystory/
+/bin/
+/.idea/
+/.factorypath
+/mystory-bus/mystory-bus.iml
+/mystory-report/mystory-report.iml
+/mystory-ear/mystory-ear.iml
+/mystory-data/mystory-data.iml
+/mystory-core/mystory-core.iml
+/mystory.iml
+/target/
+/production/mystory/
+/.metadata/

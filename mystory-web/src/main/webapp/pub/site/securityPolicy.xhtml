@@ -1,0 +1,84 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">
+        <h:outputText value="#{i18nApp.securityPolicy_pageTitle}"/>
+    </ui:define>
+
+    <!--	<ui:define name="metadata">-->
+    <!--		<f:metadata>-->
+    <!--			<f:viewAction-->
+    <!--				action="#{appMBean.doCreatePageWatch('SECURITY_POLICY')}"-->
+    <!--				onPostback="false" />-->
+    <!--		</f:metadata>-->
+    <!--	</ui:define>-->
+
+    <ui:define name="content">
+        <div class="row">
+            <div class="story-icons col">
+                <p>
+                    <i class="fa fa-lock">
+                    </i>
+                    <h:outputText styleClass="headerLabelLarge"
+                                  value="#{i18nApp.securityPolicy_header}"/>
+                </p>
+                <p>
+                    <h:outputText value="#{i18nApp.securityPolicy_lastUpdateDate}"/>
+                </p>
+                <p>
+                    <h:outputText value="#{i18nApp.securityPolicy_summary}"/>
+                </p>
+                <p>
+                    <h:outputText styleClass="headerLabel"
+                                  value="#{i18nApp.securityPolicy_passwordEncryptionHeader}"/>
+                    <br/>
+                    <h:outputText
+                            value="#{i18nApp.securityPolicy_passwordEncryptionNote}"/>
+                </p>
+                <p>
+                    <h:outputText styleClass="headerLabel"
+                                  value="#{i18nApp.securityPolicy_httpsHeader}"/>
+                    <br/>
+                    <h:outputText value="#{i18nApp.securityPolicy_httpsNote}"/>
+                </p>
+                <p>
+                    <h:outputText styleClass="headerLabel"
+                                  value="#{i18nApp.securityPolicy_oAuth2SignInHeader}"/>
+                    <br/>
+                    <h:outputText value="#{i18nApp.securityPolicy_oAuth2SignInNote}"/>
+                </p>
+
+                <p>
+                    <h:outputText styleClass="headerLabel"
+                                  value="#{i18nApp.securityPolicy_oAuth2SignOutHeader}"/>
+                    <br/>
+                    <h:outputText value="#{i18nApp.securityPolicy_oAuth2SignOutNote}"/>
+                </p>
+
+                <p>
+                    <h:outputText styleClass="headerLabel"
+                                  value="#{i18nApp.securityPolicy_donorbox}"/>
+                    <br/>
+                    <h:outputText value="#{i18nApp.securityPolicy_donorboxUsage}"/>
+                    <a href="#{i18nApp.securityPolicy_donorboxSecureHowLink}"
+                       target="_blank">#{i18nApp.securityPolicy_donorboxSecureHow}</a>
+                </p>
+                <p>
+                    <h:outputText styleClass="headerLabel"
+                                  value="#{i18nApp.securityPolicy_log42j}"/>
+                    <br/>
+                    <h:outputText value="#{i18nApp.securityPolicy_log42jUpdate}"/>
+                    <a href="#{i18nApp.securityPolicy_log42jLink}" target="_blank">#{i18nApp.securityPolicy_log42jLinkText}</a>
+                </p>
+
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

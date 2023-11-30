@@ -1,0 +1,17 @@
+description = 'mystore-core'
+
+dependencies {
+	implementation ("com.jcraft:jsch:${libraryVersions.jsch}")
+
+	implementation ("org.apache.commons:commons-lang3:${libraryVersions.commonsLang3}")
+
+	implementation ("org.slf4j:slf4j-api:${libraryVersions.slf4j}")
+	implementation ("org.slf4j:slf4j-ext:${libraryVersions.slf4j}") {
+		exclude group: 'cal10n-api', module: 'ch.qos.cal10n'
+	}
+
+	implementation ("org.apache.logging.log4j:log4j-api:${libraryVersions.log4j2}")
+	implementation ("org.apache.logging.log4j:log4j-slf4j-impl:${libraryVersions.log4j2}")
+	implementation ("org.apache.logging.log4j:log4j-core:${libraryVersions.log4j2}")
+						
+}

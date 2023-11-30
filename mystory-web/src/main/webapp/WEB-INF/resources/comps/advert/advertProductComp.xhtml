@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+<composite:interface>
+	<composite:attribute name="header" />
+	<composite:attribute name="title" />
+	<composite:attribute name="subTitle" />
+	<composite:attribute name="link" />
+	<composite:attribute name="imageSrc" />
+</composite:interface>
+
+<composite:implementation>
+
+	<table>
+		<tr>
+			<td colspan="4" class="advertHeader">#{cc.attrs.header}</td>
+		</tr>
+
+		<tr>
+			<td colspan="2"><a href="#{cc.attrs.link}" target="_blank"><img
+					class="advertProductImage" src="#{cc.attrs.imageSrc}" /></a></td>
+			<td colspan="2">
+				<table>
+					<tr>
+						<td class="advertTitle"><a href="#{cc.attrs.link}"
+							target="_blank">#{cc.attrs.title}</a></td>
+					</tr>
+					<tr>
+						<td class="advertSubTitle">#{cc.attrs.subTitle}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br />
+
+</composite:implementation>
+
+</html>

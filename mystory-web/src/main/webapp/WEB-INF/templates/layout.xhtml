@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	  xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common"
+>
+
+<h:head>
+	<title><ui:insert name="title">Title</ui:insert></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Bootstrap START -->
+
+	<meta name="robots" content="noindex, nofollow"/>
+	<meta name="googlebot" content="noindex, nofollow"/>
+
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		crossorigin="anonymous" />
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+
+	<!-- Bootstrap END -->
+
+	<h:outputStylesheet library="css" name="mystory_style.css" />
+
+	<link rel="stylesheet"
+		href="https://yarnpkg.com/en/package/normalize.css" />
+
+	<ui:insert name="metadata" />
+
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{resource['images/logo/mystory-4-32x18.png']}" />
+
+	<!-- Font Awesome START -->
+
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+		integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+		crossorigin="anonymous" />
+
+	<!-- Font Awesome End -->
+	<h:outputScript library="js" name="mystory.js" target="head" />
+
+	<!--  use the jquery included with pricefaces -->
+	<h:outputScript library="primefaces" name="jquery/jquery.js"
+		target="head" />
+
+	<!--
+		Required to use jquery with primefaces
+		https://stackoverflow.com/questions/8667980/how-to-use-jquery-with-jsf-2-0
+	-->
+	<h:outputScript target="head">
+    	$ = jQuery;
+	</h:outputScript>
+
+	<!-- for twitting -->
+	<script src="https://platform.twitter.com/widgets.js" charset="utf-8" />
+
+	<!-- for G+ share -->
+	<script src="https://apis.google.com/js/platform.js" />
+
+	<!-- set google client id based on the configured app environment name -->
+	<c:choose>
+		<c:when test="#{appMBean.isAppEnvProd()}">
+			<meta name="google-signin-client_id"
+				content="517130557167-2foahjnkdms7oph38pa64ae0eap2nt7q.apps.googleusercontent.com" />
+		</c:when>
+		<c:otherwise>
+			<meta name="google-signin-client_id"
+				content="517130557167-8orfg0gsi1hhrbm64hdk809fbkpr5e79.apps.googleusercontent.com" />
+		</c:otherwise>
+	</c:choose>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/jdenticon@2.1.1" />
+
+	<!-- Google Adsense Auto and AMP Ads START -->
+
+	<script data-ad-client="ca-pub-4773353603878026"
+			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+	<!-- Google Adsense Auto and AMP Ads END -->
+
+	<!-- Media.net head START -->
+	<script type="text/javascript">
+		window._mNHandle = window._mNHandle || {};
+		window._mNHandle.queue = window._mNHandle.queue || [];
+		medianet_versionId = "3121199";
+	</script>
+	<script src="https://contextual.media.net/dmedianet.js?cid=8CUAX8Z24" async="async"></script>
+	<!-- Media.net head END -->
+
+</h:head>
+
+<h:body>
+	<div class="container">
+		<div id="header" class="header">
+			<ui:insert name="header">
+				<ui:include src="/WEB-INF/templates/header.xhtml"></ui:include>
+			</ui:insert>
+		</div>
+
+		<div id="messages" class="row">
+			<ui:insert name="messages">
+				<commonComps:growlMessagesComp />
+			</ui:insert>
+		</div>
+
+		<div id="content" class="content">
+			<ui:insert name="content">
+				<ui:include src="/WEB-INF/templates/contentDefault.xhtml"></ui:include>
+			</ui:insert>
+
+		</div>
+
+		<div id="footer" class="footer">
+			<ui:insert name="footer">
+				<ui:include src="/WEB-INF/templates/footer.xhtml"></ui:include>
+			</ui:insert>
+		</div>
+
+	</div>
+
+	<ui:insert name="javaScriptInsert" />
+
+</h:body>
+
+</html>

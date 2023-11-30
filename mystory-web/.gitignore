@@ -1,0 +1,9 @@
+/build
+/bin/
+/dist/
+/lib/
+/.metadata/
+/target/
+/mystory-web.iml
+/.apt_generated/
+/.clover/

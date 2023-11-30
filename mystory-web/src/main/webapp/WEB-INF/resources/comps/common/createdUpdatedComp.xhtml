@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<composite:interface>
+
+	<composite:attribute name="created"></composite:attribute>
+	<composite:attribute name="updated"></composite:attribute>
+	<composite:attribute name="createdUpdatedRendered"></composite:attribute>
+	<composite:attribute name="displaySectionHeader" default="true"></composite:attribute>
+	<composite:attribute name="sectionHeader"></composite:attribute>
+</composite:interface>
+
+<composite:implementation>
+	<ui:fragment rendered="#{cc.attrs.createdUpdatedRendered}">
+		<tr>
+			<ui:fragment rendered="#{cc.attrs.displaySectionHeader}">
+				<td class="formSectionHeader" colspan="1"><p:outputLabel
+						value="#{cc.attrs.sectionHeader}" /></td>
+			</ui:fragment>
+
+			<td><table>
+					<tr>
+						<td><p:outputLabel for="created"
+								value="#{i18nApp.common_createdUpdated_created}" /></td>
+					</tr>
+					<tr>
+						<td><p:inputText id="created" value="#{cc.attrs.created}"
+								readonly="true" size="32" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel for="updated"
+								value="#{i18nApp.common_createdUpdated_updated}" /></td>
+					</tr>
+					<tr>
+						<td><p:inputText id="updated" value="#{cc.attrs.updated}"
+								readonly="true" size="32" /></td>
+					</tr>
+				</table></td>
+		</tr>
+	</ui:fragment>
+</composite:implementation>
+
+</html>

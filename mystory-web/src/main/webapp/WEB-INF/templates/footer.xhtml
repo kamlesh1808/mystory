@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<h:body>
+	<ui:composition>
+		<div class="row">
+			<div class="col-sm-4 col-md-3 left">
+				<nav class="cl-effect-4">
+					<h:outputLink value="/about-us">#{i18nApp.footer_aboutUS}</h:outputLink>
+					<br />
+					<h:outputLink value="/contact-us">#{i18nApp.footer_contactUS}</h:outputLink>
+					<br />
+					<ui:fragment rendered="#{not signInMBean.userSignedIn}">
+						<h:outputLink value="/sign-up"
+							title="#{i18nApp.header_signupTitle}">
+									#{i18nApp.header_signup}</h:outputLink>
+						<br />
+						<h:outputLink id="signInFooter" name="signIn" value="/sign-in">#{i18nApp.header_signin}</h:outputLink>
+						<br />
+					</ui:fragment>
+				</nav>
+			</div>
+
+			<div class="col-sm-4 col-md-3 left">
+				<nav class="cl-effect-4">
+					<h:outputLink value="/terms-of-service">#{i18nApp.footer_termsOfService}</h:outputLink>
+					<br />
+					<h:outputLink value="/security-policy">#{i18nApp.footer_securityPolicy}</h:outputLink>
+					<br />
+					<h:outputLink value="/privacy-policy">#{i18nApp.footer_privacyPolicy}</h:outputLink>
+					<br />
+				</nav>
+			</div>
+
+			<!--<div class="col-sm-4 col-md-3 left">
+				<nav class="cl-effect-4">
+					<h:outputLink value="/acknowledgements">#{i18nApp.footer_acks}</h:outputLink>
+					<br />
+					<h:outputLink value="/rest-api">#{i18nApp.footer_restAPIs}</h:outputLink>
+					<br />
+				</nav>
+			</div>-->
+
+			<div class="col-sm-4 col-md-3 left">
+				<nav class="cl-effect-4">
+					<h:outputLink value="/sponsors">#{i18nApp.footer_sponsors}</h:outputLink>
+					<br />
+					<!--<h:outputLink value="/support-us">#{i18nApp.footer_supportUs}</h:outputLink>
+					<br />-->
+					<h:outputLink value="/donate">
+						<h:graphicImage name="images/donate/donorbox-small-blue.png"
+							styleClass="mystoryFooterLogo" />
+					</h:outputLink>
+				</nav>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 center">
+				<nav class="cl-effect-4">
+					<div align="center">
+						<commonComps:socialsComp />
+					</div>
+				</nav>
+			</div>
+
+			<div class="col-sm-12 center">
+				<h:graphicImage name="images/logo/mystory-4-59x33-footer.png"
+					styleClass="mystoryFooterLogo" />
+				<h:outputText class="copyRight" value="#{i18nApp.footer_copyRight} "
+					escape="false" />
+				<h:outputText class="copyRight"
+					value="#{i18nApp.footer_allRightsReserved}" escape="false" />
+			</div>
+
+			<div class="col-sm-12 center">
+				<h:outputText value="#{appMBean.getAppImplementationVersion()}" />
+				<h:outputText value=" #{appMBean.getAppReleaseName()}" />
+			</div>
+		</div>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<composite:interface>
+	<composite:attribute name="contactUsList" />
+</composite:interface>
+
+<composite:implementation>
+
+	<p:panel header="#{i18nApp.contactus_reviewsHeader}">
+		<h:form>
+			<p:dataTable value="#{cc.attrs.contactUsList}" var="contactUs"
+				resizableColumns="true" tableStyle="width:auto">
+
+				<p:column resizable="false">
+					<f:facet name="header">
+						<h:outputText value="ID" />
+					</f:facet>
+					<h:outputText value="#{contactUs.id}" />
+				</p:column>
+
+				<p:column resizable="false">
+					<f:facet name="header">
+						<h:outputText
+							value="#{i18nApp.contactUsDataTable_replyColumnHeader}" />
+					</f:facet>
+
+					<p:commandButton value="#{i18nApp.contactUsDataTable_replyButton}"
+						action="#{contactUsReplyMBean.doWriteContactUsReply(contactUs)}">
+					</p:commandButton>
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.contactus_status}" />
+					</f:facet>
+					<h:outputText value="#{contactUs.status.i18N}" />
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.contactus_firstName}" />
+					</f:facet>
+					<h:outputText value="#{contactUs.firstName}" />
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.contactus_lastName}" />
+					</f:facet>
+					<h:outputText value="#{contactUs.lastName}" />
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.contactus_email}" />
+					</f:facet>
+					<h:outputText value="#{contactUs.email}" />
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText
+							value="#{i18nApp.commonDataTable_createdDateColumnHeader}" />
+					</f:facet>
+					<h:outputText value="#{contactUs.createdTimestampFormatted}" />
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</p:panel>
+
+</composite:implementation>
+
+</html>

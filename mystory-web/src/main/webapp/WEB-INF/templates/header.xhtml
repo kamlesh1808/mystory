@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:body>
+
+	<ui:composition>
+
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-3 center">
+				<h:outputLink value="/" title="#{i18nApp.header_homeTitle}">
+					<h:graphicImage name="images/logo/mystory-4-223x56.png" />
+				</h:outputLink>
+			</div>
+
+			<div class="col-sm-12 col-md-6 col-lg-3">
+
+				<div class="flip-container center"
+					ontouchstart="this.classList.toggle('hover');">
+
+					<div class="flipper center">
+						<div class="front homeImageRoll-list">
+							#{i18nApp.support_supportEachOther}<br />
+							#{i18nApp.support_supportAcceptOurselves}
+						</div>
+						<div class="back homeImageRoll-list">
+							#{i18nApp.support_supportHealTogether}<br />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<c:choose>
+				<c:when test="#{signInMBean.userSignedIn}">
+
+					<div class="col-sm-12 col-md-6 col-lg-3 story-icons center">
+						<h:form>
+							<nav class="cl-effect-4">
+
+								<ui:fragment
+									rendered="#{signInMBean.isSignedInUserAbleToShareAStory()}">
+									<div class="shareAStory">
+										<span><i class="fas fa-book"></i> <h:outputLink
+												value="/share-a-story">#{i18nApp.share_shareAStory}</h:outputLink></span>
+									</div>
+								</ui:fragment>
+
+								<div class="dropdown userDropdownMenu">
+									<button class="btn btn-outline-primary dropdown-toggle"
+										type="button" id="userDropdownMenu" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false">
+										<i class="fas fa-user"></i>
+										<h:outputText
+											value="#{signInMBean.getSignedInUserFirstLastName()}" />
+									</button>
+									<div class="dropdown-menu" aria-labelledby="userDropdownMenu">
+										<button class="dropdown-item" type="button">
+											<span><i class="fas fa-home"></i> <h:outputLink
+													value="/user">
+													<h:outputText value="#{i18nApp.user_userDashboard}" />
+												</h:outputLink></span>
+										</button>
+
+										<c:choose>
+											<span style="white-space: nowrap;"> <c:when
+													test="#{signInMBean.isSignedInUserTypeAppInternal()}">
+													<button class="dropdown-item" type="button">
+														<i class="fas fa-user-plus"></i>
+														<h:outputLink value="/user-account">#{i18nApp.user_updateAccount}</h:outputLink>
+													</button>
+												</c:when> <c:when
+													test="#{signInMBean.isSignedInUserTypeOAuth2External()}">
+													<button class="dropdown-item" type="button">
+														<i class="fas fa-user-plus"></i>
+														<h:outputLink value="/user-oauth2-account">#{i18nApp.user_updateAccount}</h:outputLink>
+													</button>
+												</c:when>
+											</span>
+										</c:choose>
+
+										<button class="dropdown-item" type="button">
+											<span><i class="fas fa-power-off"></i> <h:commandLink
+													value="#{i18nApp.header_signout}"
+													action="#{signInMBean.doSignOut}" /></span>
+										</button>
+
+									</div>
+								</div>
+							</nav>
+						</h:form>
+					</div>
+
+				</c:when>
+
+				<c:otherwise>
+					<div class="col-sm-12 col-md-6 col-lg-3 center story-icons">
+						<nav class="cl-effect-4">
+							<span><h:outputLink value="/sign-up"
+									title="#{i18nApp.header_signupTitle}">
+									#{i18nApp.header_signup}</h:outputLink></span> <span
+								title="#{i18nApp.header_signInTitle}"><h:outputLink
+									id="signIn" name="signIn" value="/sign-in">#{i18nApp.header_signin}
+							<h:graphicImage name="images/logo/mystory-4-32x18.png"
+										styleClass="sign-in" />
+									<h:graphicImage name="images/social/16px-Google__G__Logo.png"
+										styleClass="signIn" />
+								</h:outputLink></span>
+						</nav>
+					</div>
+				</c:otherwise>
+
+			</c:choose>
+
+			<div id="google_translate_element"
+				class=" col-sm-12 col-md-6 col-lg-3 center"></div>
+
+			<script type="text/javascript">
+				function googleTranslateElementInit() {
+					new google.translate.TranslateElement({
+						pageLanguage : 'en',
+						gaTrack : true,
+						gaId : 'UA-67808207-1'
+					}, 'google_translate_element');
+				}
+			</script>
+			<script type="text/javascript"
+				src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+		</div>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

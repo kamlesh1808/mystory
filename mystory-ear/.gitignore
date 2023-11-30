@@ -1,0 +1,7 @@
+/bin/
+/target/
+/lib/
+/dist/
+/build/
+/ivy-report/
+/mystory-ear.iml

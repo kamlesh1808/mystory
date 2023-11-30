@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common"
+      xmlns:advertComps="http://xmlns.jcp.org/jsf/composite/comps/advert"
+      xmlns:userComps="http://xmlns.jcp.org/jsf/composite/comps/user"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+
+    <ui:param name="story" value="#{storiesMBean.story}"/>
+
+    <div class="story">
+        <div class="storyTitle">#{story.title}</div>
+
+        <div>
+			<span title="#{i18nApp.userProfile_identicon}"> <svg
+                    data-jdenticon-value="#{story.getAuthorUserUID()}" width="29"
+                    height="29" title="#{i18nApp.userProfile_identicon}"></svg>
+			</span>
+
+            <h:link outcome="/pub/user/userProfile" includeViewParams="true"
+                    value="#{story.getAuthor()}" title="#{i18nApp.userProfile_viewUsersProfile}"
+                    styleClass="authorName">
+                <f:param name="#{requestParamsMBean.REQ_PARAM_USER_UID}" value="#{story.getAuthorUserUID()}"/>
+                <f:param name="#{requestParamsMBean.REQ_PARAM_AUTHOR_URL}" value="#{story.getAuthorURL()}"/>
+                <f:param name="#{requestParamsMBean.REQ_PARAM_USER_ROLE_TYPE_ID}"
+                         value="#{story.authorUserRoleTypeId}"/>
+            </h:link>
+        </div>
+
+        <div>
+            <i class="story-icons fas fa-file-signature" title="#{i18nApp.share_storyName}"/>
+            <h:link outcome="/pub/story/storyNameStories" includeViewParams="true"
+                    value="#{storiesMBean.getStoryName(story)} "
+                    title="#{i18nApp.storyNameStories_view}"
+                    styleClass="storyName">
+                <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_NAME_ID}" value="#{story.storyName.id}"/>
+                <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_NAME_URI}"
+                         value="#{storiesMBean.getStoryNameURI(story)}"/>
+            </h:link>
+
+            <br/> <i class="story-icons far fa-clock" title="#{i18nApp.stories_posted}"/>
+            <h:outputText
+                    value="#{i18nApp.stories_posted}:
+                    #{storiesMBean.getOffsetDateTimeFormattedISO_LOCAL_DATE(story.createdTimestamp)}"
+                    title="#{i18nApp.stories_posted} #{appMBean.getAgo(story)} #{i18nApp.stories_postedOn}
+                    #{storiesMBean.getOffsetDateTimeFormattedISO_LOCAL_DATE(story.createdTimestamp)}"/>
+
+            <ui:fragment rendered="#{not empty story.storyTextUpdatedTimestamp}">
+                <i class="story-icons fas fa-clock story-icons"
+                   title="#{i18nApp.stories_updated}"/>
+                <h:outputText
+                        value="#{i18nApp.stories_updated}:
+                        #{storiesMBean.getOffsetDateTimeFormattedISO_LOCAL_DATE(story.updatedTimestamp)}"
+                        title="#{i18nApp.stories_updated}
+                        #{appMBean.getAgo(story)} #{i18nApp.stories_postedOn}
+                        #{storiesMBean.getOffsetDateTimeFormattedISO_LOCAL_DATE(story.updatedTimestamp)}"/>
+            </ui:fragment>
+
+            <ui:fragment rendered="#{story.views > 0}">
+                <i class="story-icons far fa-eye" title="#{i18nApp.stories_views}"/>
+                <h:outputText value="#{story.views} #{i18nApp.stories_views}"/>
+            </ui:fragment>
+
+        </div>
+
+        <h:outputText value="#{i18nApp.story_storyTags} "/>
+
+        <ui:repeat var="storyTag" value="#{story.tags}">
+            <span class="tag">
+
+            <h:link outcome="/pub/story/tagStories" styleClass="tagText"
+                    includeViewParams="true" value="#{storyTag.name}   "
+                    title="#{i18nApp.stories_tagsTitle}">
+                <f:param name="#{requestParamsMBean.REQ_PARAM_TAG_NAME}" value="#{storiesMBean.getURI(storyTag.getName())}"/>
+                <f:param name="#{requestParamsMBean.REQ_PARAM_TAG_ID}" value="#{storyTag.id}"/>
+            </h:link>
+            </span>
+        </ui:repeat>
+
+
+        <br/>
+        <div class="shareButtons">
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+               class="twitter-share-button" target="_blank" rel="noopener noreferrer"
+               data-text="Hello, you may like to read! " data-via="mystory_work"
+               data-show-count="true" data-size="large">#{i18nApp.stories_tweet}</a>
+            <div class="g-plus" data-action="share" data-annotation="none"
+                 data-height="29"/>
+        </div>
+
+        <ui:fragment
+                rendered="#{signInMBean.isSignedInUserStoryAuthor(story)}">
+
+            <h:form style="display:inline;">
+                <p:button outcome="/app/story/storyEdit" includeViewParams="true"
+                          title="#{i18nApp.story_storyEditTooltip}"
+                          value="#{i18nApp.commonDataTable_editButton}">
+                    <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_ID}" value="#{story.id}"/>
+                    <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_NAME}"
+                             value="#{storiesMBean.getURI(story.getStoryName().getStoryName())}"/>
+                    <f:param name="#{requestParamsMBean.REQ_PARAM_STORY_TITLE}"
+                             value="#{storiesMBean.getURI(story.getTitle())}"/>
+                </p:button>
+
+                <p:commandButton rendered="#{story.active}"
+                                 value="#{i18nApp.common_deactivateButton}" process="@form"
+                                 update="@form" title="#{i18nApp.story_storyDeactivateTooltip}"
+                                 actionListener="#{storiesMBean.doStoryUpdateStatusInactive(story)}">
+                </p:commandButton>
+
+                <p:commandButton rendered="#{story.inActive}"
+                                 value="#{i18nApp.common_activateButton}" process="@form"
+                                 update="@form" title="#{i18nApp.story_storyActivateTooltip}"
+                                 actionListener="#{storiesMBean.doStoryUpdateStatusActive(story)}">
+                </p:commandButton>
+            </h:form>
+        </ui:fragment>
+        <br/> <br/>
+
+        <div class="storyText">
+            <h:outputText value="#{story.storyText}" escape="false"/>
+        </div>
+
+        <ui:param name="userProfile" value="#{storiesMBean.userProfileOfStory}"/>
+
+        <userComps:aboutMeComp
+                linkTitle="#{i18nApp.userProfile_viewUsersProfile}"
+                author="#{userProfile.getAuthor()}"
+                aboutMeValue="#{userProfile.getAboutMe()}"
+                userUID="#{userProfile.getUserUID()}"
+                authorURL="#{userProfile.getAuthorURL()}"
+                memberFor="#{i18nApp.userProfile_memberFor} #{appMBean.buildTimeDuration(userProfile.getCreatedTimestamp())}"
+                storiesPosted="#{userProfile.getStoriesCount()} #{i18nApp.userProfile_storiesPosted}"
+                lastSeen="#{i18nApp.userProfile_lastSeen} #{appMBean.getTimeDurationWithAgo(userProfile.getLastSeen())}"
+                profileViews="#{userProfile.getProfileViews()} #{i18nApp.userProfile_profileViews}">
+        </userComps:aboutMeComp>
+
+        <commonComps:disqusComp/>
+
+        <advertComps:advertMediaNetComp-Leaderboard-728x90/>
+    </div>
+</composite:implementation>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:storyComps="http://xmlns.jcp.org/jsf/composite/comps/story"
+      xmlns:advertComps="http://xmlns.jcp.org/jsf/composite/comps/advert"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+    <div class="row aboutUs">
+        <div class="col-sm-12 col-md-12">
+            <p>
+                <h:outputText value="#{i18nApp.aboutUs_onLinePlatform}" escape="false"/>
+            </p>
+            <p>
+                <h:outputText value="#{i18nApp.aboutUs_hopeShare}" escape="false"/>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <storyComps:storyNamesComp/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <storyComps:storyAuthorsComp/>
+        </div>
+        <div class="col-sm-12 col-md-12">
+            <storyComps:storyTagsComp/>
+        </div>
+    </div>
+
+    <div class="row">
+        <ui:fragment rendered="#{storiesSummaryMBean.renderStoryLinkDTOsWithAccessTypePublic()}">
+            <div class="col-sm-12 col-md-6">
+                <storyComps:storyLinksComp
+                        headerLabel="#{i18nApp.stories_headerStoriesByAccessTypePublic}"
+                        storyLinks="#{storiesSummaryMBean.storyLinkDTOsWithAccessTypePublic}"
+                        size="#{appMBean.storyListSize}"/>
+            </div>
+        </ui:fragment>
+
+        <ui:fragment rendered="#{storiesSummaryMBean.renderStoryLinkDTOsSharedWithStoryName()}">
+            <div class="col-sm-12 col-md-6">
+                <storyComps:storyLinksComp
+                        headerLabel="#{i18nApp.stories_headerStoriesByAccessTypeSharedWithStoryName}"
+                        storyLinks="#{storiesSummaryMBean.storyLinkDTOsSharedWithStoryName}"
+                        size="#{appMBean.storyListSize}"/>
+
+                <advertComps:advertMediaNetComp-Skyscrapper-160x600/>
+            </div>
+
+        </ui:fragment>
+    </div>
+
+</composite:implementation>
+
+
+</html>

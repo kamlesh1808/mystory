@@ -1,0 +1,84 @@
+<ui:composition xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:userComps="http://xmlns.jcp.org/jsf/composite/comps/user"
+                xmlns:advertComps="http://xmlns.jcp.org/jsf/composite/comps/advert"
+                xmlns:storyComps="http://xmlns.jcp.org/jsf/composite/comps/story"
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{i18nApp.userProfile_pageTitle}"/>
+    </ui:define>
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewAction action="#{userProfileMBean.doCreateUserWatch()}" onPostback="false"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <c:choose>
+            <c:when test="#{userProfileMBean.renderUserProfileOfUserUID()}">
+                <div class="row">
+                    <ui:fragment rendered="#{appMBean.isAdvertGoogleAdsenseEnabled()}">
+                        <div class="col-sm-12 col-md-6">
+                            <advertComps:advertGoogleComp
+                                    advertHeader="#{i18nApp.advert_advertHeader}">
+                            </advertComps:advertGoogleComp>
+                        </div>
+                    </ui:fragment>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+
+                        <ui:param name="userProfile" value="#{userProfileMBean.userProfileOfUserUID}"/>
+
+                        <userComps:aboutMeComp
+                                linkTitle="#{i18nApp.userProfile_viewUsersProfile}"
+                                author="#{userProfile.getAuthor()}"
+                                aboutMeValue="#{userProfile.getAboutMe()}"
+                                userUID="#{userProfile.getUserUID()}"
+                                authorURL="#{userProfile.getAuthorURL()}"
+                                memberFor="#{i18nApp.userProfile_memberFor} #{appMBean.buildTimeDuration(userProfile.getCreatedTimestamp())}"
+                                storiesPosted="#{userProfile.getStoriesCount()} #{i18nApp.userProfile_storiesPosted}"
+                                lastSeen="#{i18nApp.userProfile_lastSeen} #{appMBean.getTimeDurationWithAgo(userProfile.getLastSeen())}"
+                                profileViews="#{userProfile.getProfileViews()} #{i18nApp.userProfile_profileViews}">
+                        </userComps:aboutMeComp>
+                    </div>
+
+                    <ui:fragment rendered="#{appMBean.isAdvertGoogleAdsenseEnabled()}">
+                        <div class="col-sm-12 col-md-4">
+                            <advertComps:advertGoogleComp
+                                    advertHeader="#{i18nApp.advert_advertHeader}">
+                            </advertComps:advertGoogleComp>
+                        </div>
+                    </ui:fragment>
+                </div>
+
+                <div class="row">
+                    <ui:fragment rendered="#{userProfileMBean.renderStoryLinkDTOsOfUser()}">
+                        <div class="col-sm-12 col-md-6">
+                            <storyComps:storyLinksComp
+                                    headerLabel="#{i18nApp.stories_headerStoriesUserRecent}"
+                                    storyLinks="#{userProfileMBean.storyLinkDTOsOfUser}"
+                                    size="#{appMBean.storyListSize}"/>
+                        </div>
+                    </ui:fragment>
+
+                </div>
+
+            </c:when>
+
+            <c:otherwise>
+                <ui:include src="/WEB-INF/templates/contentDefault.xhtml"></ui:include>
+            </c:otherwise>
+
+        </c:choose>
+
+    </ui:define>
+
+</ui:composition>

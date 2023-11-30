@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<composite:interface>
+	<composite:attribute name="signedInUserStories" />
+</composite:interface>
+
+<composite:implementation>
+	<p:panel header="#{i18nApp.user_storiesHeader}">
+		<h:form>
+			<p:dataTable value="#{cc.attrs.signedInUserStories}" var="storyLink"
+				draggableColumns="true" rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				resizableColumns="true" tableStyle="width:auto">
+
+				<p:column resizable="false" sortBy="#{storyLink.storyId}">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyId}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.storyId}" />
+				</p:column>
+
+				<p:column resizable="false">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyEdit}" />
+					</f:facet>
+
+					<p:button outcome="/app/story/storyEdit" includeViewParams="true"
+						title="#{i18nApp.story_storyEditTooltip}"
+						value="#{i18nApp.story_storyEdit}">
+						<f:param name="#{requestParamsMBean.REQ_PARAM_STORY_ID}"
+							value="#{storyLink.storyId}" />
+						<f:param name="#{requestParamsMBean.REQ_PARAM_STORY_NAME}"
+							value="#{appMBean.getURI(storyLink.getStoryName().getStoryName())}" />
+						<f:param name="#{requestParamsMBean.REQ_PARAM_STORY_TITLE}"
+							value="#{appMBean.getURI(storyLink.getTitle())}" />
+					</p:button>
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText
+							value="#{i18nApp.commonDataTable_activateDeactivateColumnHeader}" />
+					</f:facet>
+
+					<p:commandButton rendered="#{storyLink.status.active}"
+						value="#{i18nApp.commonDataTable_deactivateButton}"
+						process="@form" update="@form"
+						title="#{i18nApp.story_storyDeactivateTooltip}"
+						actionListener="#{storiesMBean.doStoryUpdateStatusInactive(storyLink.storyId)}">
+					</p:commandButton>
+
+					<p:commandButton rendered="#{!storyLink.status.active}"
+						value="#{i18nApp.commonDataTable_activateButton}" process="@form"
+						update="@form" title="#{i18nApp.story_storyActivateTooltip}"
+						actionListener="#{storiesMBean.doStoryUpdateStatusActive(storyLink.storyId)}">
+					</p:commandButton>
+
+				</p:column>
+
+				<p:column resizable="true" sortBy="#{storyLink.status.i18N}">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyStatus}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.status.i18N}" />
+				</p:column>
+
+				<p:column resizable="true" sortBy="title" colspan="2">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyTitle}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.title}" />
+				</p:column>
+
+				<p:column resizable="true" sortBy="storyName.i18N">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyName}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.storyName.i18N}" />
+				</p:column>
+
+				<p:column resizable="true" sortBy="storyType.i18N">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyType}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.storyType.i18N}" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+
+	</p:panel>
+</composite:implementation>
+
+</html>

@@ -1,0 +1,61 @@
+description = 'mystory-ear'
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'ear'
+
+
+ear { // https://docs.gradle.org/current/userguide/ear_plugin.html
+    Project web = project(':mystory-web')
+    String value = web.name + '-' + web.version + ".war"
+
+    // trying to match with what maven produces so it can be deployed to Wildfly 10.1.0
+    deploymentDescriptor { // custom entries for application.xml
+        webModule(value, "/")
+        applicationName = "myStory"
+        displayName = "myStory"
+    }
+
+    manifest {
+        attributes("Manifest-Version": "1.0",
+                "Created-By": project.getGradle().getGradleVersion(),
+                "Built-By": System.properties['user.name'],
+                "Build-Jdk": JavaVersion.current().toString(),
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version)
+    }
+}
+
+dependencies {
+    // The following dependencies will be the ear modules and
+    // will be placed in the ear root
+    deploy project(':mystory-bus')
+
+    // to include war using configuration:'archives'
+    deploy project(path: ':mystory-web', configuration: 'archives')
+
+    /* The following dependencies will become ear libs and will
+    be placed in a dir configured via the libDirName property */
+    earlib project(':mystory-bus')
+    earlib project(':mystory-core')
+    earlib project(':mystory-report')
+
+    earlib("org.primefaces:primefaces:${libraryVersions.primefaces}")
+    earlib("org.primefaces.extensions:primefaces-extensions:${libraryVersions.primefaces}") {
+        exclude group: 'org.apache.commons', module: 'commons-lang3'
+    }
+    earlib("org.primefaces.extensions:resources-ckeditor:${libraryVersions.primefaces}") { exclude(module: 'commons-io') }
+    earlib("org.primefaces.extensions:resources-codemirror:${libraryVersions.resourcesCodemirror}")
+
+    earlib("org.ocpsoft.rewrite:rewrite-servlet:${libraryVersions.rewriteServlet}")
+    earlib("org.apache.httpcomponents:httpclient:${libraryVersions.httpclient}")
+
+    earlib("com.github.scribejava:scribejava-apis:${libraryVersions.scribejavaApis}")
+
+    earlib("com.fasterxml.jackson.core:jackson-databind:${libraryVersions.jacksonDatabind}") {
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
+    }
+
+}

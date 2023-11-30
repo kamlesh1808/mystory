@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+
+    <div class="storyTagsComp">
+        <p class="tagsLabel">
+            <h:outputText value="#{i18nApp.stories_tags} "/>
+        </p>
+
+        <ui:repeat var="storyTag" value="#{storiesSummaryMBean.storyTags}"
+                   varStatus="status">
+
+                <span class="tag">
+                    <h:link outcome="/pub/story/tagStories" includeViewParams="true"
+                            value="#{storyTag.getStoryTagName()}"
+                            title="#{i18nApp.stories_tagsTitle}"
+                            styleClass="tagText">
+                        <f:param name="#{requestParamsMBean.REQ_PARAM_TAG_NAME}"
+                                 value="#{appMBean.getURI(storyTag.getStoryTagName())}"/>
+                        <f:param name="#{requestParamsMBean.REQ_PARAM_TAG_ID}"
+                                 value="#{storyTag.getStoryTagId()}"/>
+                    </h:link>
+                </span>
+        </ui:repeat>
+
+    </div>
+
+</composite:implementation>
+
+</html>

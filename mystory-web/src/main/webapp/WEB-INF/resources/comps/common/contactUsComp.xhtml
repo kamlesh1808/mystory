@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<composite:interface>
+	<composite:attribute name="headerLabel" />
+	<composite:attribute name="yourInfoSectionHeader" />
+	<composite:attribute name="contactUsSectionHeader" />
+	<composite:attribute name="reply" default="false" />
+
+	<composite:attribute name="firstNameLabel" />
+	<composite:attribute name="firstNameValue" />
+	<composite:attribute name="lastNameLabel" />
+	<composite:attribute name="lastNameValue" />
+	<composite:attribute name="userNameLabel" />
+	<composite:attribute name="userNameValue" />
+	<composite:attribute name="emailLabel" />
+	<composite:attribute name="emailValue" />
+	<composite:attribute name="countryLabel" />
+	<composite:attribute name="countryValue" />
+	<composite:attribute name="contactUsTextLabel" />
+	<composite:attribute name="contactUsTextValue" />
+
+	<composite:attribute name="statusLabel" />
+	<composite:attribute name="statusValue" />
+
+	<composite:attribute name="contactUsCreatedUpdatedRendered"
+		default="false" />
+	<composite:attribute name="contactUsCreated" />
+	<composite:attribute name="contactUsUpdated" />
+
+	<composite:attribute name="replyTextLabel" />
+	<composite:attribute name="replyTextValue" />
+
+	<composite:attribute name="submitButtonText" />
+	<composite:attribute name="submitButtonAction"
+		method-signature="java.lang.String action()" />
+
+	<composite:attribute name="cancelButtonText" />
+	<composite:attribute name="cancelButtonAction"
+		method-signature="java.lang.String action()" />
+
+</composite:interface>
+
+<composite:implementation>
+	<h:form>
+		<p:panel id="contactUsComp" header="#{cc.attrs.headerLabel}">
+			<table>
+				<tr>
+					<td colspan="3"><commonComps:messagesComp /></td>
+				</tr>
+
+				<tr>
+					<td colspan="3"><p:outputLabel styleClass="headerLabelIT"
+							value="#{i18nApp.contactus_instructions}" /> <br /></td>
+				</tr>
+				<tr>
+					<td colspan="1" class="formSectionHeader"><h:outputText
+							value="#{cc.attrs.yourInfoSectionHeader}" /></td>
+
+					<td colspan="2"><table>
+							<tr>
+								<td><p:outputLabel for="firstName"
+										value="#{cc.attrs.firstNameLabel}" /> <br /> <p:inputText
+										id="firstName" label="#{cc.attrs.firstNameLabel}"
+										value="#{cc.attrs.firstNameValue}"
+										readonly="#{cc.attrs.reply}" required="true"
+										requiredMessage="#{i18nApp.contactus_firstNameRequired}"
+										maxlength="20" size="32">
+									</p:inputText></td>
+
+							</tr>
+							<tr>
+								<td><p:outputLabel for="lastName"
+										value="#{cc.attrs.lastNameLabel}" /> <br /> <p:inputText
+										id="lastName" label="#{cc.attrs.lastNameLabel}"
+										value="#{cc.attrs.lastNameValue}" readonly="#{cc.attrs.reply}"
+										required="true"
+										requiredMessage="#{i18nApp.contactus_lastNameRequired}"
+										maxlength="20" size="32" /></td>
+							</tr>
+							<tr>
+								<td colspan="2"><p:outputLabel for="email"
+										value="#{cc.attrs.emailLabel}" /> <br /> <p:inputText
+										id="email" label="#{cc.attrs.emailLabel}"
+										value="#{cc.attrs.emailValue}" readonly="#{cc.attrs.reply}"
+										required="true"
+										requiredMessage="#{i18nApp.contactus_emailRequired}"
+										maxlength="64" size="32">
+
+										<f:validator validatorId="eMailValidator" />
+									</p:inputText></td>
+							</tr>
+
+							<tr>
+								<td colspan="2"><p:outputLabel for="cc"
+										value="#{cc.attrs.countryLabel}" /> <br /> <p:autoComplete
+										id="cc" value="#{cc.attrs.countryValue}"
+										readonly="#{cc.attrs.reply}" minQueryLength="2"
+										completeMethod="#{countryACMBean.complete}" var="c"
+										itemLabel="#{c.nameEn}" itemValue="#{c}"
+										converter="#{countryACConverter}" maxlength="64" size="32"
+										required="true"
+										requiredMessage="#{i18nApp.contactus_countryRequired}"
+										placeholder="#{i18nApp.contactus_countryPlaceHolder}" /></td>
+							</tr>
+							<tr>
+								<td colspan="2"><p:outputLabel for="userName"
+										value="#{cc.attrs.userNameLabel}" /> <br /> <p:inputText
+										id="userName" label="#{cc.attrs.userNameLabel}"
+										value="#{cc.attrs.userNameValue}" readonly="#{cc.attrs.reply}"
+										maxlength="20" size="32"
+										pt:placeholder="#{i18nApp.contactus_userNamePlaceHolder}">
+									</p:inputText></td>
+							</tr>
+
+						</table></td>
+				</tr>
+				<tr>
+					<td colspan="1" class="formSectionHeader"><h:outputText
+							value="#{cc.attrs.contactUsSectionHeader}" /></td>
+
+					<td colspan="2"><p:outputLabel for="contactUsText"
+							value="#{cc.attrs.contactUsTextLabel}" /> <br /> <p:inputTextarea
+							id="contactUsText" rows="7" cols="55" styleClass="unresizable"
+							label="#{cc.attrs.contactUsTextLabel}"
+							value="#{cc.attrs.contactUsTextValue}"
+							readonly="#{cc.attrs.reply}" required="true"
+							requiredMessage="#{i18nApp.contactus_contactUsTextRequired}" /></td>
+
+					<ui:fragment
+						rendered="#{signInMBean.isSignedInUserRoleTypeAppAdmin() and cc.attrs.reply}">
+
+						<td valign="top"><p:outputLabel for="contactUsStatus"
+								value="#{cc.attrs.statusLabel}" /> <br /> <h:selectOneMenu
+								id="contactUsStatus" label="#{cc.attrs.statusLabel}"
+								value="#{cc.attrs.statusValue}" readonly="#{cc.attrs.reply}">
+
+								<f:selectItems value="#{appConstantsMBean.contactUsStatuses}"
+									var="status" itemLabel="#{contactUsStatus.i18N}"
+									itemValue="#{contactUsStatus}" />
+
+								<f:converter converterId="contactUsStatusConverter" />
+							</h:selectOneMenu></td>
+					</ui:fragment>
+				</tr>
+
+				<commonComps:createdUpdatedComp singleRow="true"
+					hasSectionHeader="true"
+					sectionHeader="#{i18nApp.common_createdUpdatedSectionHeader}"
+					createdUpdatedRendered="#{cc.attrs.contactUsCreatedUpdatedRendered}"
+					created="#{cc.attrs.contactUsCreated}"
+					updated="#{cc.attrs.contactUsUpdated}" />
+
+				<ui:fragment
+					rendered="#{signInMBean.isSignedInUserRoleTypeAppAdmin() and cc.attrs.reply}">
+					<tr>
+						<td colspan="1" class="formSectionHeader"><h:outputText
+								value="#{cc.attrs.replySectionHeader}" /></td>
+
+						<td colspan="2"><p:outputLabel for="replyText"
+								value="#{cc.attrs.replyTextLabel}" /> <br /> <p:inputTextarea
+								id="replyText" rows="7" cols="55"
+								label="#{cc.attrs.replyTextLabel}"
+								value="#{cc.attrs.replyTextValue}"
+								readonly="#{cc.attrs.reply eq false}" required="true"
+								requiredMessage="#{i18nApp.contactus_replyTextRequired}" /></td>
+					</tr>
+				</ui:fragment>
+
+				<tr>
+					<td class="formSectionHeader" colspan="1"><h:outputText
+							value="#{i18nApp.commonform_formActions}" escape="false" /></td>
+
+					<td colspan="2"><p:commandButton process="@form"
+							update="contactUsComp" value="#{cc.attrs.submitButtonText}"
+							action="#{cc.attrs.submitButtonAction}" type="submit" /> <p:commandButton
+							value="#{cc.attrs.cancelButtonText}" process="@this"
+							action="#{cc.attrs.cancelButtonAction}" type="submit">
+						</p:commandButton></td>
+				</tr>
+			</table>
+		</p:panel>
+	</h:form>
+
+</composite:implementation>
+
+</html>

@@ -1,0 +1,195 @@
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+
+}
+
+plugins {
+    id 'java'
+
+    id 'eclipse' //The Eclipse plugins generate files that are used by the Eclipse IDE
+    id 'idea'     // for IntelliJ IDEA project
+
+    id "com.github.spotbugs" version "5.0.5"
+    id 'org.unbroken-dome.xjc' version '2.0.0' /* Generate Java code from XSD */
+
+    id "org.sonarqube" version "3.3"
+    id "com.diffplug.spotless" version "6.2.0"
+}
+
+allprojects {
+
+    repositories {
+        mavenCentral()
+
+        maven { url 'https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/' }
+/*
+ Could not find com.lowagie:itext:2.1.7.js7.
+     Searched in the following locations:
+       - https://repo.maven.apache.org/maven2/com/lowagie/itext/2.1.7.js7/itext-2.1.7.js7.pom
+       - https://jcenter.bintray.com/com/lowagie/itext/2.1.7.js7/itext-2.1.7.js7.pom
+*/
+    }
+
+    ext.libraryVersions = [
+            // API START
+            javaee             : '8.0',
+            javaxJwsApi        : '1.+',
+            javaxXmlBindJaxbApi: '2.4.+',
+
+            // API END
+
+
+            // Test START
+            junit5             : '5.8.+',
+
+            // Test END
+
+
+            // Framework START
+            slf4j              : '1.7.+',
+            log4j2             : '2.17.+',
+            primefaces         : '6.2',  // ckeditor story text component works with 6.2, not with 7.0
+
+            ehcache            : '3.+',
+            jCacheAPI          : '1.+',
+
+            modelMapper        : '2.+',
+            dozerMapper        : '6.5.+',
+
+            jacksonDatabind    : '2.+',
+
+            rewriteServlet     : '3.4.4.Final',
+
+            httpclient         : '4.+',
+            scribejavaApis     : '8.+',
+
+            resourcesCodemirror: '6.1.1',
+
+            quartz             : '2.+',
+
+            jpamodelgen        : '5.6.5.Final',
+
+            jsch               : '0.1.54',
+            commonsLang3       : '3.+',
+
+            jasperreports      : '6.17.+',
+
+            // Framework END
+
+    ]
+
+    group = 'jklprojects.mystory'
+    plugins.withType(JavaPlugin) { test { ignoreFailures false } }
+
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "eclipse"
+    apply plugin: "com.diffplug.spotless"
+    apply plugin: 'org.unbroken-dome.xjc' /* Generate Java code from XSD */
+    //apply plugin: "com.github.spotbugs"
+    apply plugin: "org.sonarqube"
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    configurations {
+        implementation { transitive = false }
+        testImplementation { transitive = false }
+        testCompile { transitive = false }
+        runtime { transitive = false }
+        testRuntime { transitive = false }
+
+        jasperreports {
+            transitive = true
+        }
+    }
+
+    jar {
+        manifest {
+            attributes("Manifest-Version": "1.0",
+                    "Created-By": project.getGradle().getGradleVersion(),
+                    "Built-By": System.properties['user.name'],
+                    "Build-Jdk": JavaVersion.current().toString(),
+                    "Implementation-Title": project.name,
+                    "Implementation-Version": project.version)
+        }
+    }
+
+    dependencies {
+        implementation("javax:javaee-api:${libraryVersions.javaee}") {
+            //transitive = false
+        }
+
+        // JUnit 5
+        testImplementation("org.junit.jupiter:junit-jupiter-api:${libraryVersions.junit5}")
+        implementation("org.junit.jupiter:junit-jupiter-engine:${libraryVersions.junit5}") {
+            exclude group: 'org.opentest4j', module: 'opentest4j'
+            exclude group: 'org.junit.platform', module: 'junit-platform-commons'
+            exclude group: 'org.jetbrains.kotlin'
+        }
+
+    }
+
+    test {
+        useJUnitPlatform()
+
+        testLogging {
+            events "skipped", "failed"
+            exceptionFormat = 'full'
+
+            afterSuite { desc, result ->
+                if (!desc.parent) { // will match the outermost suite
+                    // SAMPLE OUTPUT Results: SUCCESS (47 tests, 43 successes, 0 failures, 4 skipped)
+                    println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                }
+            }
+        }
+    }
+
+    spotless {
+        enforceCheck true
+
+        java {
+            targetExclude 'build/generated/**', 'src/test/codegen/**', 'src/**/generated/**'
+
+            licenseHeader '/** Copyright (c) 2015 - 2022 JKLProjects Inc. All Rights Reserved. */'
+
+            eclipse()
+
+            trimTrailingWhitespace()
+            indentWithTabs(4)
+
+            //removeUnusedImports()
+
+        }
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.sources", "src/main/java"
+        }
+    }
+
+    project(":mystory-ear") {
+        sonarqube {
+            skipProject = true
+        }
+    }
+
+    project(":mystory-data") {
+        sonarqube {
+            skipProject = true
+        }
+    }
+
+    project(":mystory-docs") {
+        sonarqube {
+            skipProject = true
+        }
+    }
+}

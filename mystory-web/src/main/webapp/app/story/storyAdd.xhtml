@@ -1,0 +1,54 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:storyComps="http://xmlns.jcp.org/jsf/composite/comps/story">
+
+	<ui:define name="title">
+		<h:outputText value="#{i18nApp.share_storyPageTitle}" />
+	</ui:define>
+
+	<ui:define name="javaScriptInsert">
+		<h:outputScript target="head">
+			$(document).ready(function() {
+    			$(":input:visible:enabled:first").focus();
+			});
+		</h:outputScript>
+	</ui:define>
+	
+	<!-- override messages in layout.xhtml with blank  -->
+	<ui:define name="messages" />
+
+	<ui:define name="content">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<storyComps:storyComp headerLabel="#{i18nApp.share_storyHeader}"
+					storyDetailsSectionHeader="#{i18nApp.story_storyDetailsSectionHeader}"
+					storyNameLabel="#{i18nApp.share_storyName}"
+					storyNameValue="#{addStoryMBean.story.storyName}"
+					storyTypeLabel="#{i18nApp.share_storyType}"
+					storyTypeValue="#{addStoryMBean.story.storyType}"
+					accessTypeLabel="#{i18nApp.share_storyAccessType}"
+					accessTypeValue="#{addStoryMBean.story.accessType}"
+					storyTitleLabel="#{i18nApp.share_storyTitle}"
+					storyTitleValue="#{addStoryMBean.story.title}"
+					storyStatusLabel="#{i18nApp.share_storyStatus}"
+					storyStatusValue="#{addStoryMBean.story.status}"
+					storyTextLabel="#{i18nApp.share_storyText}"
+					storyTextValue="#{addStoryMBean.story.storyText}"
+					storyTagsLabel="#{i18nApp.story_storyTags}"
+					storyTagsValue="#{addStoryMBean.story.tags}"
+					createdUpdatedRendered="false"
+					submitButtonText="#{i18nApp.commonform_saveButton}"
+					submitButtonAction="#{addStoryMBean.doAddStory}"
+					cancelButtonText="#{i18nApp.commonform_cancelButton}">
+				</storyComps:storyComp>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>

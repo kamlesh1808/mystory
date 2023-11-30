@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <!-- <persistence-unit name="mystoryJDBCPU">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="javax.persistence.jdbc.url"
+                value="jdbc:postgresql://localhost:5432/mystorydb" />
+            <property name="javax.persistence.jdbc.user"
+                value="mystoryadmin" />
+            <property name="javax.persistence.jdbc.password"
+                value="adminadmin" />
+            <property name="javax.persistence.jdbc.driver"
+                value="org.postgresql.Driver" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.archive.autodetection"
+                value="class" />
+            <property name="hibernate.default_schema" value="mystory" />
+            <property name="hibernate.dialect"
+                value="org.hibernate.dialect.PostgreSQLDialect" />
+        </properties>
+    </persistence-unit> -->
+
+    <!-- Glassfish 5.0 -->
+    <!-- <persistence-unit name="myStoryJTAPU"
+        transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>jdbc/MyStoryDS</jta-data-source>
+        <properties>
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.default_schema" value="mystory" />
+            <property name="hibernate.dialect"
+                value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="hibernate.transaction.jta.platform"
+                value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
+        </properties>
+    </persistence-unit> -->
+
+    <!-- Wildfly 16.0.0 -->
+    <persistence-unit name="myStoryJTAPU"
+                      transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <jta-data-source>java:jboss/jdbc/MyStoryXADS</jta-data-source>
+
+        <properties>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.default_schema" value="mystory" />
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.PostgreSQLDialect" />
+        </properties>
+    </persistence-unit>
+
+</persistence>

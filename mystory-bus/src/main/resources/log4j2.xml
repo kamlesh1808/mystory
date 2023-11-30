@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="trace" monitorInterval="30">
+    <!-- https://logging.apache.org/log4j/2.x/manual/configuration.html#ConfigurationSyntax -->
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MMM-dd EEE HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </Console>
+
+        <RollingFile name="businessRollingFile"
+                     fileName="/var/log/mystory/business.log" append="true"
+                     filePattern="/var/log/mystory/$${date:yyyy-MMM}/business-%d{yyyy-MMM-dd}-%i.log.zip"
+                     ignoreExceptions="false">
+
+            <PatternLayout pattern="%d{yyyy-MMM-dd EEE HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="webRollingFile"
+                     fileName="/var/log/mystory/web.log" append="true"
+                     filePattern="/var/log/mystory/$${date:yyyy-MMM}/web-%d{yyyy-MMM-dd}-%i.log.zip"
+                     ignoreExceptions="false">
+
+            <PatternLayout pattern="%d{yyyy-MMM-dd EEE HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="commonRollingFile"
+                     fileName="/var/log/mystory/common.log" append="true"
+                     filePattern="/var/log/mystory/$${date:yyyy-MMM}/common-%d{yyyy-MMM-dd}-%i.log.zip"
+                     ignoreExceptions="false">
+
+            <PatternLayout pattern="%d{yyyy-MMM-dd EEE HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="reportRollingFile"
+                     fileName="/var/log/mystory/report.log" append="true"
+                     filePattern="/var/log/mystory/$${date:yyyy-MMM}/report-%d{yyyy-MMM-dd}-%i.log.zip"
+                     ignoreExceptions="false">
+
+            <PatternLayout
+                    pattern="%d{yyyy-MMM-dd EEE HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console" level="INFO"/>
+        </Root>
+
+        <Logger name="com.jklprojects.mystory.business" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="businessRollingFile"/>
+        </Logger>
+
+        <Logger name="com.jklprojects.mystory.web" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="webRollingFile"/>
+        </Logger>
+
+        <Logger name="com.jklprojects.mystory.common" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="commonRollingFile"/>
+        </Logger>
+
+        <Logger name="com.jklprojects.mystory.report" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="reportRollingFile"/>
+        </Logger>
+
+    </Loggers>
+
+</Configuration>

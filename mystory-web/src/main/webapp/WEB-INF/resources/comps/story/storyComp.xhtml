@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<composite:interface>
+	<composite:attribute name="headerLabel" />
+	<composite:attribute name="edit" default="false" />
+	<composite:attribute name="storyDetailsSectionHeader" />
+	<composite:attribute name="storyNameLabel" />
+	<composite:attribute name="storyNameValue" />
+	<composite:attribute name="storyTypeLabel" />
+	<composite:attribute name="storyTypeValue" />
+	<composite:attribute name="accessTypeLabel" />
+	<composite:attribute name="accessTypeValue" />
+	<composite:attribute name="storyStatusLabel" />
+	<composite:attribute name="storyStatusValue" />
+	<composite:attribute name="storyTitleLabel" />
+	<composite:attribute name="storyTitleValue" />
+	<composite:attribute name="storyTextLabel" />
+	<composite:attribute name="storyTextValue" />
+	<composite:attribute name="storyTextUpdatedLabel" />
+	<composite:attribute name="storyTextUpdatedValue" />
+	<composite:attribute name="storyTagsLabel" />
+	<composite:attribute name="storyTagsValue" />
+	<composite:attribute name="storyCreated" />
+	<composite:attribute name="storyUpdated" />
+	<composite:attribute name="storyCreatedUpdatedRendered" default="false" />
+
+	<composite:attribute name="submitButtonText" />
+	<composite:attribute name="submitButtonAction"
+		method-signature="java.lang.String action()" />
+	<composite:attribute name="cancelButtonText" />
+</composite:interface>
+
+<composite:implementation>
+
+	<ui:param name="storyReadOnly"
+		value="#{cc.attrs.edit and ((not storiesMBean.storyEditEnabled) or signInMBean.isSignedInUserRoleTypeAppAdmin())}" />
+
+	<h:form>
+
+		<p:panel id="storyComp" header="#{cc.attrs.headerLabel}">
+			<table>
+				<tr>
+					<td colspan="2"><commonComps:messagesComp /></td>
+				</tr>
+
+				<tr>
+					<td colspan="1" class="formSectionHeader"><h:outputText
+							value="#{cc.attrs.storyDetailsSectionHeader}" escape="false" /></td>
+					<td><table>
+							<tr>
+								<td><p:outputLabel for="storyName"
+										value="#{cc.attrs.storyNameLabel}" escape="false" /> <br />
+									<h:selectOneMenu id="storyName"
+										label="#{cc.attrs.storyNameLabel}"
+										value="#{cc.attrs.storyNameValue}"
+										validator="#{addStoryMBean.validateStoryName}"
+										readonly="#{storyReadOnly}">
+
+										<f:selectItems value="#{addStoryMBean.storyNames}"
+											var="storyName" itemLabel="#{storyName.i18N}"
+											itemValue="#{storyName}" />
+
+										<f:converter converterId="storyNameConverter" />
+									</h:selectOneMenu></td>
+								<td><p:outputLabel for="storyType"
+										value="#{cc.attrs.storyTypeLabel}" /> <br /> <h:selectOneMenu
+										id="storyType" label="#{cc.attrs.storyTypeLabel}"
+										value="#{cc.attrs.storyTypeValue}"
+										validator="#{addStoryMBean.validateStoryPostType}"
+										readonly="#{storyReadOnly}">
+
+										<f:selectItems value="#{addStoryMBean.storyTypes}"
+											var="storyType" itemLabel="#{storyType.i18N}"
+											itemValue="#{storyType}" />
+
+										<f:converter converterId="storyTypeConverter" />
+									</h:selectOneMenu></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel for="accessType"
+										value="#{cc.attrs.accessTypeLabel}" /> <br /> <h:selectOneMenu
+										id="accessType" label="#{cc.attrs.accessTypeLabel}"
+										value="#{cc.attrs.accessTypeValue}"
+										validator="#{addStoryMBean.validateAccessType}"
+										readonly="#{storyReadOnly}">
+
+										<f:selectItems value="#{addStoryMBean.accessTypes}"
+											var="accessType" itemLabel="#{accessType.i18N}"
+											itemValue="#{accessType}" />
+
+										<f:converter converterId="storyAccessTypeConverter" />
+									</h:selectOneMenu></td>
+
+								<ui:fragment
+									rendered="#{signInMBean.isSignedInUserRoleTypeAppAdmin()}">
+									<td><p:outputLabel for="storyStatus"
+											value="#{cc.attrs.storyStatusLabel}" /> <br /> <h:selectOneMenu
+											id="storyStatus" label="#{cc.attrs.storyStatusLabel}"
+											value="#{cc.attrs.storyStatusValue}"
+											readonly="#{not signInMBean.signedInUserRoleTypeAppAdmin}">
+
+											<f:selectItems value="#{addStoryMBean.storyStatuses}"
+												var="storyStatus" itemLabel="#{storyStatus.i18N}"
+												itemValue="#{storyStatus}" />
+
+											<f:converter converterId="storyStatusConverter" />
+										</h:selectOneMenu></td>
+								</ui:fragment>
+
+							</tr>
+						</table></td>
+				</tr>
+				<tr>
+					<td class="formSectionHeader" colspan="1"><h:outputText
+							value="#{cc.attrs.storyTitleLabel}" escape="false" /></td>
+
+					<td colspan="1"><p:outputLabel for="title"
+							value="#{cc.attrs.storyTitleLabel}" /> <br /> <p:inputText
+							id="title" label="#{cc.attrs.storyTitleLabel}"
+							value="#{cc.attrs.storyTitleValue}"
+							validator="#{addStoryMBean.validateStoryTitle}"
+							pt:placeHolder="#{i18nApp.story_storyTitlePlaceHolder}"
+							required="true"
+							requiredMessage="#{i18nApp.story_storyTitleRequired}" size="64"
+							maxlength="64" readonly="#{storyReadOnly}">
+						</p:inputText></td>
+
+				</tr>
+				<tr>
+					<td class="formSectionHeader" colspan="1"><h:outputText
+							value="#{cc.attrs.storyTextLabel}" escape="false" /></td>
+
+					<td colspan="1"><p:outputLabel for="storyText"
+							value="#{cc.attrs.storyTextLabel}" /> <br /> <pe:ckEditor
+							id="storyText" value="#{cc.attrs.storyTextValue}" width="600"
+							required="true" height="220" interfaceColor="E5E5FF"
+							readonly="#{storyReadOnly}"
+							validator="#{addStoryMBean.validateStoryText}"
+							checkDirtyInterval="0" skin="kama"
+							toolbar="[[ 'Templates', '-', 'Source','-','Preview','Print'], [ 'Maximize', 'ShowBlocks' ],
+	[ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ],
+	[ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ],
+	'/',
+	[ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ],
+	[ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
+	'-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ], [ 'TextColor','BGColor' ],
+	'/',
+	[ 'Styles','Format','Font','FontSize' ], [ 'Link','Unlink','Anchor' ], [ 'Image', 'Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] 
+	]">
+						</pe:ckEditor> <ui:fragment
+							rendered="#{not empty cc.attrs.storyTextUpdatedValue}">
+							<p:outputLabel for="storyTextUpdated"
+								value="#{cc.attrs.storyTextUpdatedLabel}" />
+							<br />
+							<p:inputText id="storyTextUpdated"
+								value="#{cc.attrs.storyTextUpdatedValue}" readonly="true"
+								size="32" />
+						</ui:fragment></td>
+				</tr>
+
+				<tr>
+					<td class="formSectionHeader" colspan="1"><h:outputText
+							value="#{cc.attrs.storyTagsLabel}" escape="false" /></td>
+
+					<td colspan="1"><p:outputLabel for="tags"
+							value="#{cc.attrs.storyTagsLabel}" /><br /> <p:autoComplete
+                            id="tags" value="#{cc.attrs.storyTagsValue}"
+                            completeMethod="#{tagsACMBean.complete}" var="storyTag"
+                            itemLabel="#{storyTag.name}" itemValue="#{storyTag}"
+                            converter="#{tagACConverter}" multiple="true"
+                            readonly="#{storyReadOnly}" forceSelection="true" required="true"
+                            requiredMessage="#{i18nApp.story_tagRequired}"
+                            placeholder="#{i18nApp.story_storyTagsPlaceHolder}" /></td>
+				</tr>
+
+				<commonComps:createdUpdatedComp
+					sectionHeader="#{i18nApp.common_createdUpdatedSectionHeader}"
+					createdUpdatedRendered="#{cc.attrs.storyCreatedUpdatedRendered}"
+					created="#{cc.attrs.storyCreated}"
+					updated="#{cc.attrs.storyUpdated}" />
+
+				<tr>
+					<td class="formSectionHeader" colspan="1"><h:outputText
+							value="#{i18nApp.commonform_formActions}" escape="false" /></td>
+					<td class="formActions" colspan="1"><p:commandButton
+							process="@form" update="storyComp"
+							value="#{cc.attrs.submitButtonText}" readonly="#{storyReadOnly}"
+							action="#{cc.attrs.submitButtonAction}" type="submit" /> <!-- from the story comp, Cancel always returns to the user    -->
+						<p:button value="#{cc.attrs.cancelButtonText}"
+							outcome="/app/user/user">
+						</p:button></td>
+				</tr>
+
+			</table>
+		</p:panel>
+	</h:form>
+
+</composite:implementation>
+
+</html>

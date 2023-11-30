@@ -1,0 +1,11 @@
+description = 'mystore-docs'
+jar.enabled = false // disable the jar task
+
+dependencies {
+}
+
+task docZip(type: Zip) {
+    from 'docs'
+}
+
+compileJava.dependsOn docZip // task executes as a dependency of compileJava

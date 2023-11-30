@@ -1,0 +1,81 @@
+description = 'mystore-report'
+
+dependencies {
+    implementation project(':mystory-core')
+
+    jasperreports("net.sf.jasperreports:jasperreports:${libraryVersions.jasperreports}") // this is required!
+
+    implementation("org.slf4j:slf4j-api:${libraryVersions.slf4j}")
+    implementation("org.slf4j:slf4j-ext:${libraryVersions.slf4j}") {
+        exclude group: 'cal10n-api', module: 'ch.qos.cal10n'
+    }
+
+    // include jasper reports lib, with some of its transitive dependencies excluded
+    implementation("net.sf.jasperreports:jasperreports:${libraryVersions.jasperreports}") {
+        exclude module: 'icu4j'
+        exclude module: 'stax'
+        exclude module: 'ecj'
+        exclude module: 'castor-xml'
+        exclude module: 'bcprov-jdk15on'
+        exclude module: 'olap4j'
+        exclude module: 'lucene-core'
+        exclude module: 'jackson-databind'
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
+        exclude module: 'lucene-analyzers-common'
+        exclude module: 'lucene-queryparser'
+        exclude group: 'com.google.zxing', module: 'core'
+        exclude group: "org.olap4j", module: "olap4j"
+    }
+
+    configurations.all {
+        exclude group: "org.olap4j", module: "olap4j"
+    }
+}
+
+jar {
+
+    sourceSets {
+        main {
+            resources {
+                srcDirs "src/main/resources", "build/classes/main/jasperreports"
+            }
+        }
+    }
+
+    doFirst {
+        manifest { // build manifest with libs
+            attributes 'Class-Path':
+                    configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+        }
+    }
+}
+
+/**
+ * A task to compile Jasper Reports .jrxml to .jasper using Ant task.
+ */
+task compileJasperReports() {
+
+    doLast {
+        def jasperSourceDir = file('src/main/jasperreports')
+        def jasperTargetDir = file('build/classes/main/jasperreports/jasperreports')
+
+        ant {
+            taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: configurations.jasperreports.asPath)
+
+            jasperTargetDir.mkdirs()
+
+            jrc(srcdir: jasperSourceDir, destdir: jasperTargetDir) {
+                classpath(path: sourceSets.main.output.classesDirs)
+                include(name: '**/*.jrxml')
+            }
+        }
+    }
+}
+
+compileJava.dependsOn compileJasperReports // task executes as a dependency of compileJava
+
+
+processResources {
+    duplicatesStrategy = 'include'
+}

@@ -1,0 +1,89 @@
+<ui:composition xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:advertComps="http://xmlns.jcp.org/jsf/composite/comps/advert"
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{i18nApp.supportUs_title}"/>
+    </ui:define>
+
+    <!--    <ui:define name="metadata">-->
+    <!--        <f:metadata>-->
+    <!--            <f:viewAction action="#{appMBean.doCreatePageWatch('SUPPORT_US')}"-->
+    <!--                          onPostback="false"/>-->
+    <!--        </f:metadata>-->
+    <!--    </ui:define>-->
+
+    <ui:define name="content">
+        <div class="row">
+            <div class="story-icons col-md-6">
+                <p>
+                    <i class="fas fa-ad"></i>
+                    <h:outputText class="headerLabelLarge"
+                                  value="#{i18nApp.supportUs_label}"/>
+
+                </p>
+                <p>
+                    <h:outputText value="#{i18nApp.supportUs_how}"/>
+                </p>
+                <p>
+                    <h:outputText styleClass="headerLabelIT"
+                                  value=" #{i18nApp.supportUs_thankYou}"/>
+                </p>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="row m-1">
+            <div class="col-sm-12 card border border-0">
+                <div class="story-icons card-header text-center font-weight-bold">
+                    <i class="fab fa-medium"></i>#{i18nApp.supportUs_mediaNetAds}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <advertComps:advertMediaNetComp-Leaderboard-728x90/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <advertComps:advertMediaNetComp-Skyscrapper-160x600/>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <advertComps:advertMediaNetComp-MediumRectangle-300x250/>
+            </div>
+
+            <div class="col-sm-9 col-md-4">
+                <advertComps:advertMediaNetComp-Phone-300x50/>
+            </div>
+        </div>
+
+        <div class="row m-1">
+            <div class="col-sm-12">
+                <div class="card border border-0">
+                    <div class="card-header text-center font-weight-bold">
+                        #{i18nApp.supportUs_otherAds}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-1">
+            <div class="col-sm-6 col-md-3 align-middle">
+                <a href="https://cloud.google.com/free" target="_blank" rel="noopener noreferrer"
+                   title="Google Cloud Platform Free Tier">Google Cloud</a><br/> <a
+                    href="https://m.do.co/c/5eec4fabe443" target="_blank" rel="noopener noreferrer"
+                    title="$10 Credit link">Digital Ocean</a>
+            </div>
+            <div class="col-sm-6 col-md-3"></div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

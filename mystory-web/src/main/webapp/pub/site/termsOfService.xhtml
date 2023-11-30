@@ -1,0 +1,67 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+	<ui:define name="title">
+		<h:outputText value="#{i18nApp.termsOfService_pageTitle}" />
+	</ui:define>
+
+<!--	<ui:define name="metadata">-->
+<!--		<f:metadata>-->
+<!--			<f:viewAction-->
+<!--				action="#{appMBean.doCreatePageWatch('TERMS_OF_SERVICE')}"-->
+<!--				onPostback="false" />-->
+<!--		</f:metadata>-->
+<!--	</ui:define>-->
+
+	<ui:define name="content">
+		<div class="row">
+			<div class="story-icons col-sm-12">
+				<p>
+					<i class="fas fa-file-alt"></i>
+					<h:outputText styleClass="headerLabelLarge"
+						value="#{i18nApp.termsOfService_header}" />
+				</p>
+				<p>
+					<h:outputText value="#{i18nApp.termsOfService_lastUpdateDate}" />
+				</p>
+				<p>
+					<h:outputText value="#{i18nApp.termsOfService_summary}" />
+				</p>
+				<p>
+					<h:outputText styleClass="headerLabel"
+						value="#{i18nApp.termsOfService_identityTheftPrivacyHeader}" />
+					<br />
+					<h:outputText
+						value="#{i18nApp.termsOfService_identityTheftPrivacyNote}" />
+				</p>
+				<p>
+					<h:outputText styleClass="headerLabel"
+						value="#{i18nApp.termsOfService_respectfulOfOthersHeader}" />
+					<br />
+					<h:outputText
+						value="#{i18nApp.termsOfService_respectfulOfOthersNote}" />
+				</p>
+				<p>
+					<h:outputText styleClass="headerLabel"
+						value="#{i18nApp.termsOfService_copyRightHeader}" />
+					<br />
+					<h:outputText value="#{i18nApp.termsOfService_copyRightNote}" />
+				</p>
+				<p>
+					<h:outputText styleClass="headerLabel"
+						value="#{i18nApp.termsOfService_spamHeader}" />
+					<br />
+					<h:outputText value="#{i18nApp.termsOfService_spamNote}" />
+				</p>
+			</div>
+
+		</div>
+	</ui:define>
+
+</ui:composition>

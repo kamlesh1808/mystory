@@ -1,0 +1,52 @@
+image: eclipse-temurin:17
+
+
+before_script:
+  - java -version || true
+  - python -V || true
+  - export GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.workers.max=4 -Dorg.gradle.warning.mode=all -Dsun.net.client.defaultConnectTimeout=15000 -Dsun.net.client.defaultReadTimeout=600000 -Dsun.io.useCanonCaches=false -Djava.awt.headless=true -Dorg.gradle.internal.launcher.welcomeMessageEnabled=false"
+  - export GRADLE_USER_HOME=`pwd`/.gradle-cache
+  - mkdir -p "$GRADLE_USER_HOME"; cp -arv "$HOME/.gradle/." "$GRADLE_USER_HOME" || true
+  - sed -i 's/-all\.zip/-bin.zip/' gradle/wrapper/gradle-wrapper.properties
+  - command -v java && ./gradlew --quiet --stop &> /dev/null || true
+
+after_script:
+  - command -v java && ./gradlew --quiet --stop &> /dev/null || true
+
+stages:
+  - build
+  - test
+
+spotlessCheck:
+  only:
+    - /feature\/\w.+/
+    - /release\/\w.+/
+    - master
+  stage: build
+  interruptible: true
+  script:
+    - chmod +x gradlew
+    - ./gradlew clean spotlessApply
+
+build:
+  only:
+    - /feature\/\w.+/
+    - /release\/\w.+/
+    - master
+  stage: build
+  interruptible: true
+  script:
+    - chmod +x gradlew
+    - ./gradlew clean assemble
+
+test:
+  only:
+    - /feature\/\w.+/
+    - /release\/\w.+/
+    - master
+  stage: test
+  interruptible: true
+  script:
+    - chmod +x gradlew
+    - ./gradlew test
+

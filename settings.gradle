@@ -1,0 +1,17 @@
+rootProject.name = 'mystory'
+
+include ':mystory-core'
+include ':mystory-web'
+include ':mystory-bus'
+include ':mystory-ear'
+include ':mystory-report'
+include ':mystory-data'
+include ':mystory-docs'
+
+project(':mystory-core').projectDir = "$rootDir/mystory-core" as File
+project(':mystory-web').projectDir = "$rootDir/mystory-web" as File
+project(':mystory-bus').projectDir = "$rootDir/mystory-bus" as File
+project(':mystory-ear').projectDir = "$rootDir/mystory-ear" as File
+project(':mystory-report').projectDir = "$rootDir/mystory-report" as File
+project(':mystory-data').projectDir = "$rootDir/mystory-data" as File
+project(':mystory-docs').projectDir = "$rootDir/mystory-docs" as File

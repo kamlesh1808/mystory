@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<composite:interface>
+	<composite:attribute name="storiesPendingReview" />
+</composite:interface>
+
+<composite:implementation>
+
+	<p:panel header="#{i18nApp.stories_headerPendingReviewStories}">
+		<h:form>
+			<p:dataTable value="#{cc.attrs.storiesPendingReview}" var="storyLink"
+				resizableColumns="true" tableStyle="width:auto">
+
+				<p:column resizable="false">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyId}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.storyId}" />
+				</p:column>
+
+				<p:column resizable="false">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyEdit}" />
+					</f:facet>
+
+					<p:button value="#{i18nApp.story_storyReview}"
+						outcome="/app/story/storyReview" includeViewParams="true"
+						title="#{i18nApp.story_storyReviewTooltip}">
+						<f:param name="#{requestParamsMBean.REQ_PARAM_STORY_ID}"
+							value="#{storyLink.storyId}" />
+						<f:param name="#{requestParamsMBean.REQ_PARAM_STORY_NAME}"
+							value="#{appMBean.getURI(storyLink.getStoryName().getStoryName())}" />
+						<f:param name="#{requestParamsMBean.REQ_PARAM_STORY_TITLE}"
+							value="#{appMBean.getURI(storyLink.getTitle())}" />
+					</p:button>
+
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyStatus}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.status.i18N}" />
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyName}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.storyName.i18N}" />
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyTitle}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.title}" />
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText value="#{i18nApp.story_storyType}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.storyType.i18N}" />
+				</p:column>
+
+				<p:column resizable="true">
+					<f:facet name="header">
+						<h:outputText
+							value="#{i18nApp.commonDataTable_createdDateColumnHeader}" />
+					</f:facet>
+					<h:outputText value="#{storyLink.createdDateTimeFormatted}" />
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</p:panel>
+</composite:implementation>
+
+</html>

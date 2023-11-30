@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:commonComps="http://xmlns.jcp.org/jsf/composite/comps/common">
+
+<composite:interface>
+	<composite:attribute name="colspan" default="1"></composite:attribute>
+</composite:interface>
+
+<composite:implementation>
+	<h:outputText value="#{signInMBean.prepareUserMessagesList()}" />
+
+	<p:growl id="growlMsgInfo" for="msgInfo" showDetail="true"
+		sticky="false" life="7000" escape="false" />
+	<p:growl id="growlMsgWarn" for="msgWarn" showDetail="true"
+		sticky="true" escape="false" />
+	<p:growl id="growlMsgError" for="msgError" showDetail="true"
+		sticky="true" escape="false" />
+</composite:implementation>
+
+</html>

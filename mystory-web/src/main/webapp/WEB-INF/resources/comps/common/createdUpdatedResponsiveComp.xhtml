@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<composite:interface>
+
+	<composite:attribute name="created"></composite:attribute>
+	<composite:attribute name="updated"></composite:attribute>
+	<composite:attribute name="createdUpdatedRendered"></composite:attribute>
+	<composite:attribute name="singleRow" default="false"></composite:attribute>
+	<composite:attribute name="hasSectionHeader" default="true"></composite:attribute>
+	<composite:attribute name="sectionHeader"></composite:attribute>
+</composite:interface>
+
+<composite:implementation>
+	<ui:fragment rendered="#{cc.attrs.createdUpdatedRendered}">
+
+		<ui:fragment rendered="#{cc.attrs.hasSectionHeader}">
+			<div class="form-group row">
+				<div class="col-md-12 font-weight-bold text-primary">
+					<h:outputText value="#{cc.attrs.sectionHeader}" />
+				</div>
+			</div>
+		</ui:fragment>
+
+		<c:choose>
+			<c:when test="#{cc.attrs.singleRow}">
+
+				<div class="form-group row">
+					<div class="col-md-12">
+						<p:outputLabel for="created"
+							value="#{i18nApp.common_createdUpdated_created}" />
+						<p:inputText id="created" value="#{cc.attrs.created}"
+							readonly="true" size="32" />
+
+						<p:outputLabel for="updated"
+							value="#{i18nApp.common_createdUpdated_updated}" />
+						<p:inputText id="updated" value="#{cc.attrs.updated}"
+							readonly="true" size="32" />
+					</div>
+				</div>
+			</c:when>
+
+			<c:otherwise>
+				<div class="form-group row">
+					<div class="col-md-12">
+						<p:outputLabel for="created"
+							value="#{i18nApp.common_createdUpdated_created}" />
+						<br />
+						<p:inputText id="created" value="#{cc.attrs.created}"
+							readonly="true" size="32" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-12">
+						<p:outputLabel for="updated"
+							value="#{i18nApp.common_createdUpdated_updated}" />
+						<br />
+						<p:inputText id="updated" value="#{cc.attrs.updated}"
+							readonly="true" size="32" />
+					</div>
+				</div>
+			</c:otherwise>
+		</c:choose>
+	</ui:fragment>
+</composite:implementation>
+
+</html>

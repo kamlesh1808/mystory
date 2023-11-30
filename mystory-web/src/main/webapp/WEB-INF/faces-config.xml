@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<application>
+		<message-bundle>i18n.messages</message-bundle>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>en_US</supported-locale>
+			<supported-locale>en_CA</supported-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>i18n.application</base-name>
+			<var>i18nApp</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>i18n.app_messages</base-name>
+			<var>i18nAppMsgs</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>i18n.app_enums</base-name>
+			<var>i18nAppEnums</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>props.appProps</base-name>
+			<var>appProps</var>
+		</resource-bundle>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlInputText</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlInputSecret</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlInputTextarea</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlSelectOneMenu</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlSelectManyMenu</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlSelectManyCheckbox</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlSelectManyListbox</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlSelectBooleanCheckbox</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlSelectOneRadio</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.jklprojects.mystory.web.api.event.PostValidationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
+			<source-class>javax.faces.component.html.HtmlSelectOneListbox</source-class>
+		</system-event-listener>
+	</application>
+
+	<factory>
+		<exception-handler-factory>com.jklprojects.mystory.web.story.ex.MyStoryExFactory</exception-handler-factory>
+	</factory>
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{signInMBean.doSignOut}</from-action>
+			<from-outcome>signout-success</from-outcome>
+			<to-view-id>/pub/site/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{signInMBean.doSignOut}</from-action>
+			<from-outcome>signout-failure</from-outcome>
+			<to-view-id>/pub/site/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>viewExpired</from-outcome>
+			<to-view-id>/errorpages/sessionexpired.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>errorDB</from-outcome>
+			<to-view-id>/errorpages/error_db.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pub/user/signUp.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pub/user/signIn.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/pub/site/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pub/user/signUp.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pub/user/signIn.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/pub/site/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pub/user/signIn.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>account_recovery</from-outcome>
+			<to-view-id>/app/user/userAccountEdit.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pub/user/accountRecovery.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pub/user/signIn.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/pub/site/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/app/user/userAccountEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/app/user/userAccountEdit.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/app/user-oauth2/userOAuth2AccountEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/app/user-oauth2/userOAuth2AccountEdit.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pub/story/shared.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>editStory</from-outcome>
+			<to-view-id>/app/story/storyEdit.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pub/story/shared.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pub/story/shared.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/app/story/storyAdd.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/app/story/storyAdd.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/app/user/user.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>editStory</from-outcome>
+			<to-view-id>/app/story/storyEdit.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>contactUsReply</from-outcome>
+			<to-view-id>/app/user/contactUsReply.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/app/user/storyEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pub/site/contactUs.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pub/site/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/pub/site/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/app/user/contactUsReply.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/app/user/user.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/app/user/user.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>

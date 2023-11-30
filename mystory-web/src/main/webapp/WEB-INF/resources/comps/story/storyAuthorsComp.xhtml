@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+
+    <div class="storyAuthorsComp">
+        <p class="authorsLabel">
+            <h:outputText value="#{i18nApp.stories_authors} "/>
+        </p>
+
+        <ui:repeat var="storyAuthor" value="#{storiesSummaryMBean.storyAuthors}"
+                   varStatus="status">
+
+            <h:link outcome="/pub/user/userProfile" includeViewParams="true"
+                    value="#{storyAuthor.getAuthor()}"
+                    title="#{i18nApp.userProfile_viewUsersProfile}"
+                    styleClass="authorName">
+                <f:param name="#{requestParamsMBean.REQ_PARAM_USER_UID}"
+                         value="#{storyAuthor.getUserUID()}"/>
+                <f:param name="#{requestParamsMBean.REQ_PARAM_AUTHOR_URL}"
+                         value="#{storyAuthor.getAuthorURL()}"/>
+                <f:param name="#{requestParamsMBean.REQ_PARAM_USER_ROLE_TYPE_ID}"
+                         value="#{storyAuthor.getUserRoleType()}"/>
+
+            </h:link>
+        </ui:repeat>
+
+    </div>
+
+</composite:implementation>
+
+</html>

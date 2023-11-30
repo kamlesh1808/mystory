@@ -1,0 +1,9 @@
+/bin/
+/target/
+/dist/
+/lib/
+/build/
+/.apt_generated/
+/mystory-core.iml
+/.clover/
+/.sts4-cache/

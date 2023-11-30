@@ -1,0 +1,59 @@
+description = 'mystory-bus'
+
+dependencies {
+	implementation (project(":mystory-core"))
+
+	implementation (project(":mystory-report")) {
+	    transitive = false
+	}
+
+	implementation ("org.slf4j:slf4j-api:${libraryVersions.slf4j}")
+	implementation ("org.slf4j:slf4j-ext:${libraryVersions.slf4j}") {
+		exclude group: 'cal10n-api', module: 'ch.qos.cal10n'
+	}
+
+	implementation ("org.quartz-scheduler:quartz:${libraryVersions.quartz}") {
+		transitive = false 
+	}
+
+	implementation 'org.postgresql:postgresql:42.2.18' // re-added since 4.20.10.23 WildFly 21
+	implementation ("org.quartz-scheduler:quartz-jobs:${libraryVersions.quartz}")
+
+	implementation ("javax.jws:javax.jws-api:${libraryVersions.javaxJwsApi}")
+	implementation ("javax.xml.bind:jaxb-api:${libraryVersions.javaxXmlBindJaxbApi}")
+
+	implementation ("org.ehcache:ehcache:${libraryVersions.ehcache}") {
+		transitive = false
+	}
+
+	implementation ("javax.cache:cache-api:${libraryVersions.jCacheAPI}") {
+		transitive = false
+	}
+
+	implementation ("org.modelmapper:modelmapper:${libraryVersions.modelMapper}") {
+		transitive = false
+	}
+
+	implementation ("com.github.dozermapper:dozer-core:${libraryVersions.dozerMapper}") {
+		transitive = false
+	}
+
+	// https://discuss.gradle.org/t/annotation-processor-org-hibernate-jpamodelgen-jpametamodelentityprocessor-not-found/30823/8	
+	annotationProcessor("org.hibernate:hibernate-jpamodelgen:${libraryVersions.jpamodelgen}")
+
+}
+
+
+sourceSets.main.java.srcDirs += "${buildDir}/generated"
+
+compileJava {
+	options.annotationProcessorGeneratedSourcesDirectory = file("${buildDir}/generated")
+
+	dependsOn xjcGenerate
+}
+
+//xjcGenerate {
+//	source = fileTree('src/test/schema') { include '*.xsd' }
+//	targetPackage = "com.jklprojects.mystory.generated.xjc"
+//	outputDirectory = file("src/test/java")
+//}
